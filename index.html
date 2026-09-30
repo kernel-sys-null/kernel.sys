@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERNEL_ | Arquitectura Digital de Alta Precisión</title>
+    <meta name="description" content="Páginas web minimalistas de alto rendimiento. Contáctanos en Instagram @kernel.null">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0d0d'/%3E%3Ctext x='15' y='23' font-family='sans-serif' font-size='19' font-weight='700' fill='white' text-anchor='middle'%3EK%3C/text%3E%3Ccircle cx='26' cy='25' r='2.5' fill='%2310b981'/%3E%3C/svg%3E">
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; background:#0d0d0d; color:#fff; overflow-x:hidden; }
+        .glass-panel { background:rgba(26,26,26,.6); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.1); }
+        .card-hover { transition:all .3s cubic-bezier(.4,0,.2,1); }
+        .card-hover:hover { transform:translateY(-5px); border-color:rgba(255,255,255,.3); box-shadow:0 10px 30px -10px rgba(0,0,0,.6); }
+        .neon-dot { width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block; box-shadow:0 0 10px #10b981; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .modal-enter { animation:modalIn .3s ease-out; }
+        @keyframes modalIn { from{opacity:0; transform:scale(.95)} to{opacity:1; transform:scale(1)} }
+        ::-webkit-scrollbar { width:8px; } ::-webkit-scrollbar-track { background:#0d0d0d; }
+        ::-webkit-scrollbar-thumb { background:#333; border-radius:4px; } ::-webkit-scrollbar-thumb:hover { background:#444; }
+        /* Luz que sigue al cursor en el hero */
+        #inicio { --x:70%; --y:35%; }
+        .hero-glow { position:absolute; inset:0; pointer-events:none; z-index:-1;
+            background:radial-gradient(500px circle at var(--x) var(--y), rgba(255,255,255,.08), transparent 70%); }
+        .btn-primary { background:#fff; color:#000; font-weight:700; transition:all .2s; }
+        .btn-primary:hover { background:#e5e5e5; transform:translateY(-2px); box-shadow:0 8px 24px -8px rgba(255,255,255,.35); }
+        .btn-primary:active, .btn-ghost:active { transform:scale(.97); }
+        .btn-ghost { border:1px solid rgba(255,255,255,.15); font-weight:600; transition:all .2s; }
+        .btn-ghost:hover { background:#fff; color:#000; transform:translateY(-2px); }
+        .caret { display:inline-block; width:7px; height:14px; background:#10b981; vertical-align:middle; animation:blink 1s steps(1) infinite; }
+        @keyframes blink { 50%{opacity:0} }
+        #toast { transition:all .3s; }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid #fff; outline-offset:3px; }
+        @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { kernel: { bg:'#0d0d0d', panel:'#1a1a1a', muted:'#a1a1aa', accent:'#ffffff' } } } } }
+    </script>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 transition-all">
+        <div class="max-w-7xl mx-auto glass-panel px-6 py-3 rounded-3xl md:rounded-full">
+            <div class="flex items-center justify-between">
+                <a href="#inicio" class="text-2xl font-bold tracking-tighter">KERNEL<span class="neon-dot ml-1"></span></a>
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-kernel-muted">
+                    <a href="#inicio" class="hover:text-white transition-colors">Inicio</a>
+                    <a href="#servicios" class="hover:text-white transition-colors">Servicios</a>
+                    <a href="#nosotros" class="hover:text-white transition-colors">Sobre Nosotros</a>
+                    <a href="#contacto" class="hover:text-white transition-colors">Contacto</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openModal()" class="btn-primary px-5 py-2 rounded-full text-sm">Hablemos</button>
+                    <button id="menu-btn" aria-label="Abrir menú" aria-expanded="false" class="md:hidden w-10 h-10 rounded-full border border-white/10 flex items-center justify-center">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pt-4 mt-3 border-t border-white/10 flex-col gap-4 text-kernel-muted font-medium">
+                <a href="#inicio" class="mm block py-1 hover:text-white">Inicio</a>
+                <a href="#servicios" class="mm block py-1 hover:text-white">Servicios</a>
+                <a href="#nosotros" class="mm block py-1 hover:text-white">Sobre Nosotros</a>
+                <a href="#contacto" class="mm block py-1 hover:text-white">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="inicio" class="relative pt-40 pb-24 px-6 overflow-hidden">
+        <div class="hero-glow"></div>
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-medium tracking-widest uppercase">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Estándar de Alta Gama
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+                    Arquitectura Digital & Páginas Web de <span class="text-kernel-muted">Alta Precisión.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-kernel-muted max-w-xl font-light leading-relaxed">
+                    Diseños minimalistas inspirados en la estética de vanguardia. Rendimiento extremo, código limpio y experiencias que cautivan desde el primer segundo.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#servicios" class="btn-primary px-7 py-4 rounded-full flex items-center gap-2">Ver planes <i data-lucide="arrow-down" class="w-4 h-4"></i></a>
+                    <button onclick="openModal()" class="btn-ghost px-7 py-4 rounded-full flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Cotizar por WhatsApp</button>
+                    <a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" class="btn-ghost px-7 py-4 rounded-full flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> @kernel.null</a>
+                </div>
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <div class="px-4 py-2 rounded-xl bg-kernel-panel border border-white/5 flex items-center gap-3">
+                        <span class="text-xl font-bold"><span data-count="50">50</span>+</span>
+                        <span class="text-xs text-kernel-muted uppercase tracking-tighter">Proyectos<br>Completados</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-kernel-panel border border-white/5 flex items-center gap-3">
+                        <span class="text-xl font-bold"><span data-count="100">100</span>%</span>
+                        <span class="text-xs text-kernel-muted uppercase tracking-tighter">Responsivo<br>& Mobile</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-kernel-panel border border-white/5 flex items-center gap-3">
+                        <span class="text-xl font-bold"><span data-count="24">24</span>h</span>
+                        <span class="text-xs text-kernel-muted uppercase tracking-tighter">Entrega<br>Promedio</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ventana de código animada -->
+            <div class="relative group">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-white/20 to-transparent rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+                <div class="relative bg-kernel-panel border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="bg-[#222] px-4 py-2 flex items-center gap-2 border-b border-white/5">
+                        <div class="flex gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500/40"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/40"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500/40"></div>
+                        </div>
+                        <div class="mx-auto text-[11px] text-kernel-muted font-mono">kernel.js</div>
+                    </div>
+                    <div class="p-6 font-mono text-xs sm:text-sm min-h-[290px] flex flex-col">
+                        <div id="code" class="space-y-1 flex-1"></div>
+                        <button onclick="openModal('Proyecto nuevo')" class="btn-primary mt-4 py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-4 h-4"></i> Iniciar proyecto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-24 px-6 bg-kernel-bg">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Planes & <span class="text-kernel-muted">Precios</span></h2>
+                <p class="text-kernel-muted">Elige el plan que mejor se ajusta a tu negocio. Precios en pesos mexicanos.</p>
+            </div>
+            <div id="plans" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch"></div>
+            <p class="text-xs text-kernel-muted text-center mt-10">Precios en pesos mexicanos (MXN). Dominio y hosting se cotizan aparte.</p>
+        </div>
+    </section>
+
+    <!-- Diferencia -->
+    <section id="nosotros" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">La Diferencia <span class="text-kernel-muted">KERNEL_</span></h2>
+                <p class="text-kernel-muted">Toca cada tarjeta para ver cómo lo hacemos.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8" id="diff"></div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-24 px-6 bg-kernel-bg border-t border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-14 space-y-6">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight">Hablemos de <span class="text-kernel-muted">tu proyecto.</span></h2>
+                <p class="text-kernel-muted max-w-xl mx-auto">Escríbenos directo a cualquiera de los dos o síguenos en Instagram para ver nuestros trabajos.</p>
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" class="btn-primary inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg">
+                        <i data-lucide="instagram" class="w-5 h-5"></i> @kernel.null
+                    </a>
+                    <a href="mailto:kernel.sys.null@gmail.com?subject=Quiero%20cotizar%20una%20p%C3%A1gina%20web" class="btn-ghost inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg">
+                        <i data-lucide="mail" class="w-5 h-5"></i> Escribir por correo
+                    </a>
+                    <button onclick="copyMail()" aria-label="Copiar correo" class="btn-ghost w-14 h-14 rounded-full flex items-center justify-center">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <p class="text-sm text-kernel-muted">kernel.sys.null@gmail.com</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8" id="team"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-white/5 bg-kernel-bg">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 mb-12">
+            <div class="space-y-5">
+                <span class="text-2xl font-bold tracking-tighter">KERNEL<span class="neon-dot ml-1"></span></span>
+                <p class="text-sm text-kernel-muted leading-relaxed">Elevando el estándar del diseño web comercial a través de la precisión y el minimalismo.</p>
+                <a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" aria-label="Instagram de KERNEL_" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                    <i data-lucide="instagram" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <div>
+                <h4 class="font-bold mb-5">Mapa del Sitio</h4>
+                <ul class="space-y-3 text-sm text-kernel-muted">
+                    <li><a href="#inicio" class="hover:text-white transition-colors">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-white transition-colors">Servicios</a></li>
+                    <li><a href="#nosotros" class="hover:text-white transition-colors">Nosotros</a></li>
+                    <li><a href="#contacto" class="hover:text-white transition-colors">Contacto</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-5">Contacto</h4>
+                <ul class="space-y-3 text-sm text-kernel-muted" id="foot-contact">
+                    <li><a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" class="text-white font-bold hover:underline">@kernel.null</a></li>
+                    <li><a href="mailto:kernel.sys.null@gmail.com" class="hover:text-white transition-colors break-all">kernel.sys.null@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-xs text-kernel-muted">&copy; 2026 KERNEL_. Todos los derechos reservados.</p>
+            <p class="text-xs text-kernel-muted">Built with precision by KERNEL_</p>
+        </div>
+    </footer>
+
+    <!-- Botón flotante -->
+    <button onclick="openModal()" aria-label="Escribir por WhatsApp" class="btn-primary fixed bottom-6 right-6 z-40 h-14 px-5 rounded-full shadow-2xl flex items-center gap-2">
+        <i data-lucide="message-circle" class="w-5 h-5"></i><span class="hidden sm:inline">Hablemos</span>
+    </button>
+
+    <!-- Modal de solicitud -->
+    <div id="order-modal" class="fixed inset-0 z-[100] hidden items-center justify-center px-6" role="dialog" aria-modal="true" aria-labelledby="m-title">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-kernel-panel border border-white/10 p-8 rounded-[2rem] max-w-md w-full modal-enter shadow-2xl max-h-[92vh] overflow-y-auto">
+            <button onclick="closeModal()" aria-label="Cerrar" class="absolute top-6 right-6 text-kernel-muted hover:text-white"><i data-lucide="x"></i></button>
+            <div class="mb-6">
+                <h3 id="m-title" class="text-2xl font-bold mb-2">Solicitar Orden</h3>
+                <p id="m-service" class="text-kernel-muted text-sm"></p>
+            </div>
+            <form id="order-form" class="space-y-4">
+                <div>
+                    <label for="f-name" class="block text-xs text-kernel-muted font-bold mb-2">Tu nombre</label>
+                    <input id="f-name" type="text" required class="w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all">
+                </div>
+                <div>
+                    <label for="f-city" class="block text-xs text-kernel-muted font-bold mb-2">Ciudad</label>
+                    <input id="f-city" type="text" class="w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all">
+                </div>
+                <div>
+                    <label for="f-msg" class="block text-xs text-kernel-muted font-bold mb-2">Cuéntanos tu idea (opcional)</label>
+                    <textarea id="f-msg" rows="2" class="w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all resize-none"></textarea>
+                </div>
+                <div>
+                    <span class="block text-xs text-kernel-muted font-bold mb-2">¿Con quién quieres hablar?</span>
+                    <div id="who" class="grid grid-cols-2 gap-3"></div>
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 rounded-xl mt-2 flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i> Enviar por WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Aviso -->
+    <div id="toast" role="status" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[120] bg-white text-black text-sm font-bold px-5 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none translate-y-4"></div>
+
+    <script>
+        const PEOPLE = {
+            joshua: { name:'Joshua Emiliano Acevedo Ruiz', short:'Joshua', tel:'2721842482', ig:'jxsh._.emi', ini:'JE' },
+            angel:  { name:'Angel Falcon Ramos',           short:'Angel',  tel:'2721942014', ig:'ang3lfal', ini:'AF' }
+        };
+        const DIFF = [
+            ['shield-check','Diseño Exclusivo','Sin plantillas genéricas. Cada proyecto es una pieza única de arquitectura digital.','Partimos de tu marca: colores, tono y contenido reales. Nada se copia de otro cliente.'],
+            ['zap','Velocidad Extrema','Optimizamos hasta el último byte para una carga instantánea en cualquier dispositivo.','Imágenes ligeras, código limpio y sin librerías de más. Tu página abre rápido incluso con datos móviles.'],
+            ['headset','Soporte Directo','Comunicación fluida y directa. Estamos contigo en cada etapa del despliegue.','Hablas directo con quien diseña tu página, por WhatsApp o Instagram, sin intermediarios.']
+        ];
+        const $ = (s) => document.querySelector(s);
+        const ICONS = {
+            'x':'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+            'check':'<path d="M20 6 9 17l-5-5"/>',
+            'menu':'<path d="M4 6h16M4 12h16M4 18h16"/>',
+            'plus':'<path d="M5 12h14M12 5v14"/>',
+            'arrow-down':'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+            'mail':'<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+            'phone':'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+            'copy':'<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            'send':'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+            'play':'<polygon points="6 3 20 12 6 21 6 3"/>',
+            'message-circle':'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+            'shopping-cart':'<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+            'zap':'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+            'shield-check':'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            'headset':'<path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/>',
+            'instagram':'<rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/>'
+        };
+        const icons = () => document.querySelectorAll('[data-lucide]').forEach(el => {
+            const d = ICONS[el.dataset.lucide]; if (!d) return;
+            const v = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            Object.entries({ viewBox:'0 0 24 24', width:24, height:24, fill:'none', stroke:'currentColor', 'stroke-width':2, 'stroke-linecap':'round', 'stroke-linejoin':'round', 'aria-hidden':'true', class: el.getAttribute('class') || '' })
+                .forEach(([k, val]) => v.setAttribute(k, val));
+            v.innerHTML = d; el.replaceWith(v);
+        });
+        let chosen = 'joshua';
+
+        /* Aviso flotante */
+        let tt;
+        function toast(msg) {
+            const t = $('#toast'); t.textContent = msg;
+            t.classList.remove('opacity-0','translate-y-4'); clearTimeout(tt);
+            tt = setTimeout(() => t.classList.add('opacity-0','translate-y-4'), 2200);
+        }
+        function copyTel(tel) {
+            (navigator.clipboard ? navigator.clipboard.writeText(tel) : Promise.reject())
+                .then(() => toast('Número copiado: ' + tel)).catch(() => toast('Número: ' + tel));
+        }
+
+        function copyMail() {
+            const m = 'kernel.sys.null@gmail.com';
+            (navigator.clipboard ? navigator.clipboard.writeText(m) : Promise.reject())
+                .then(() => toast('Correo copiado')).catch(() => toast('Correo: ' + m));
+        }
+
+        /* Tarjetas de contacto */
+        $('#team').innerHTML = Object.values(PEOPLE).map(p => `
+            <div class="bg-kernel-panel border border-white/5 p-8 rounded-3xl card-hover space-y-6">
+                <div class="flex items-center gap-4">
+                    <div aria-hidden="true" class="w-16 h-16 shrink-0 rounded-full bg-white text-black flex items-center justify-center text-xl font-bold ring-2 ring-white/20 ring-offset-4 ring-offset-[#1a1a1a]">${p.ini}</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">${p.name}</h3>
+                        <p class="text-sm text-kernel-muted">@${p.ig} &middot; ${p.tel}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <a href="https://wa.me/52${p.tel}?text=${encodeURIComponent('Hola ' + p.short + ', vi la página de KERNEL_ y quiero cotizar una página web.')}" target="_blank" rel="noopener" class="btn-primary py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</a>
+                    <a href="https://instagram.com/${p.ig}" target="_blank" rel="noopener" class="btn-ghost py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                    <a href="tel:+52${p.tel}" class="btn-ghost py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="phone" class="w-4 h-4"></i> Llamar</a>
+                    <button onclick="copyTel('${p.tel}')" class="btn-ghost py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="copy" class="w-4 h-4"></i> Copiar número</button>
+                </div>
+            </div>`).join('');
+
+        $('#foot-contact').insertAdjacentHTML('beforeend', Object.values(PEOPLE).map(p =>
+            `<li><a href="https://instagram.com/${p.ig}" target="_blank" rel="noopener" class="hover:text-white transition-colors">${p.short} &middot; @${p.ig}</a></li>`).join(''));
+
+        /* Tarjetas expandibles */
+        $('#diff').innerHTML = DIFF.map(([ic, t, s, more]) => `
+            <div role="button" tabindex="0" aria-expanded="false" class="diff cursor-pointer text-left p-8 rounded-3xl bg-kernel-panel border border-white/5 space-y-4 card-hover">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10"><i data-lucide="${ic}"></i></div>
+                    <i data-lucide="plus" class="plus w-5 h-5 text-kernel-muted transition-transform"></i>
+                </div>
+                <h3 class="text-xl font-bold">${t}</h3>
+                <p class="text-kernel-muted text-sm leading-relaxed">${s}</p>
+                <p class="more hidden text-sm text-white leading-relaxed pt-3 border-t border-white/10">${more}</p>
+            </div>`).join('');
+        document.querySelectorAll('.diff').forEach(b => {
+            const tg = () => {
+                const open = b.querySelector('.more').classList.toggle('hidden') === false;
+                b.setAttribute('aria-expanded', open);
+                b.querySelector('.plus').style.transform = open ? 'rotate(45deg)' : '';
+            };
+            b.addEventListener('click', tg);
+            b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tg(); } });
+        });
+
+        /* Modal */
+        function renderWho() {
+            $('#who').innerHTML = Object.entries(PEOPLE).map(([k, p]) => `
+                <button type="button" data-who="${k}" aria-pressed="${k === chosen}" class="py-3 rounded-xl border text-sm font-bold transition-all ${k === chosen ? 'bg-white text-black border-white' : 'border-white/10 text-kernel-muted hover:border-white/40 hover:text-white'}">${p.short}</button>`).join('');
+            document.querySelectorAll('#who button').forEach(b => b.onclick = () => { chosen = b.dataset.who; renderWho(); });
+        }
+        function openModal(service) {
+            $('#m-service').textContent = service || 'Cuéntanos qué necesitas y te respondemos por WhatsApp.';
+            $('#m-service').dataset.s = service || 'Consulta general';
+            renderWho();
+            const m = $('#order-modal'); m.classList.remove('hidden'); m.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => $('#f-name').focus(), 50);
+        }
+        function closeModal() {
+            const m = $('#order-modal'); m.classList.add('hidden'); m.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        $('#order-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const p = PEOPLE[chosen], city = $('#f-city').value.trim(), msg = $('#f-msg').value.trim();
+            const text = `Hola ${p.short}, soy ${$('#f-name').value.trim()}${city ? ' de ' + city : ''}. Me interesa: ${$('#m-service').dataset.s}.${msg ? ' ' + msg : ''}`;
+            window.open(`https://wa.me/52${p.tel}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+            e.target.reset(); closeModal(); toast('Abriendo WhatsApp con ' + p.short);
+        });
+
+        /* Menú móvil */
+        const mb = $('#menu-btn'), mm = $('#mobile-menu');
+        mb.addEventListener('click', () => {
+            const open = mm.classList.toggle('hidden') === false;
+            mm.classList.toggle('flex', open); mb.setAttribute('aria-expanded', open);
+        });
+        document.querySelectorAll('.mm').forEach(a => a.addEventListener('click', () => { mm.classList.add('hidden'); mm.classList.remove('flex'); }));
+
+        /* Barra al hacer scroll */
+        window.addEventListener('scroll', () => {
+            const n = $('nav'), s = window.scrollY > 50;
+            n.classList.toggle('py-2', s); n.classList.toggle('py-4', !s);
+        });
+
+        /* Luz que sigue al cursor */
+        const hero = $('#inicio');
+        hero.addEventListener('mousemove', e => {
+            const r = hero.getBoundingClientRect();
+            hero.style.setProperty('--x', (e.clientX - r.left) + 'px');
+            hero.style.setProperty('--y', (e.clientY - r.top) + 'px');
+        });
+
+        /* Ventana de código con efecto de escritura y contadores */
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const K = (c, t) => `<span class="text-${c}-400">${t}</span>`;
+        const LINES = [
+            `${K('purple','const')} ${K('blue','brand')} = ${K('emerald',"'KERNEL_'")};`,
+            `${K('purple','const')} ${K('blue','instagram')} = ${K('emerald',"'@kernel.null'")};`,
+            '&nbsp;',
+            `${K('purple','function')} ${K('yellow','initExperience')}() {`,
+            `&nbsp;&nbsp;${K('blue','return')} ${K('purple','new')} ${K('yellow','DigitalArchitecture')}({`,
+            `&nbsp;&nbsp;&nbsp;&nbsp;precision: ${K('orange','1.0')},`,
+            `&nbsp;&nbsp;&nbsp;&nbsp;aesthetic: ${K('emerald',"'Minimal'")}`,
+            `&nbsp;&nbsp;});`,
+            `}`
+        ];
+        const code = $('#code');
+        let i = 0;
+        function typeLine() {
+            code.innerHTML = LINES.slice(0, ++i).map(l => `<div>${l}</div>`).join('') + (i < LINES.length ? '<span class="caret"></span>' : '');
+            if (i < LINES.length && !reduce) setTimeout(typeLine, 330);
+            else if (i < LINES.length) { i = LINES.length - 1; typeLine(); }
+        }
+        typeLine();
+
+        const io = new IntersectionObserver(es => es.forEach(en => {
+            if (!en.isIntersecting) return; io.unobserve(en.target);
+            const end = +en.target.dataset.count, t0 = performance.now();
+            if (reduce) return;
+            (function step(t) {
+                const p = Math.min((t - t0) / 1200, 1);
+                en.target.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(step);
+            })(t0);
+        }));
+        document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+
+/* Planes y precios (MXN) */
+        const PLANS = [
+            { k:'landing', name:'Básico', title:'Landing Page Minimalista', price:'1,500', desc:'Ideal para presentar tu negocio y recibir mensajes.',
+              feats:['Una página con todas tus secciones','Diseño dark minimalista a tu marca','Botones a WhatsApp e Instagram','Adaptada a celular','1 ronda de cambios'] },
+            { k:'catalog', name:'Profesional', title:'Catálogo Interactivo', price:'2,800', desc:'Muestra tus productos o servicios con botones interactivos.', hot:true,
+              feats:['Todo lo del plan Básico','Catálogo de hasta 20 productos o servicios','Botón de pedido por WhatsApp en cada uno','Animaciones y detalles interactivos','2 rondas de cambios'] },
+            { k:'store', name:'Premium', title:'Tienda Carrito WhatsApp', price:'4,500', desc:'Tu tienda completa: el cliente arma su pedido y te lo envía.',
+              feats:['Todo lo del plan Profesional','Carrito que arma el pedido y lo manda por WhatsApp','Hasta 50 productos','Formulario de pedido con datos del cliente','Soporte por 30 días'] }
+        ];
+        $('#plans').innerHTML = PLANS.map((p, i) => `
+            <div class="bg-kernel-panel border ${p.hot ? 'border-white/20' : 'border-white/5'} p-4 rounded-3xl card-hover flex flex-col group relative">
+                ${p.hot ? '<span class="absolute top-7 left-7 z-10 bg-white text-black text-xs font-bold px-3 py-1 rounded-full">Recomendado</span>' : ''}
+                <div class="aspect-[4/3] rounded-2xl bg-[#222] mb-6 overflow-hidden relative">
+                    <div role="img" aria-label="Vista previa: ${p.title}" data-mock="${p.k}" class="w-full h-full transition duration-700 group-hover:scale-110"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-kernel-panel to-transparent pointer-events-none"></div>
+                </div>
+                <div class="px-2 pb-2 flex-1 flex flex-col">
+                    <p class="text-xs font-bold tracking-widest uppercase text-kernel-muted mb-2">${p.name}</p>
+                    <h3 class="text-xl font-bold mb-3">${p.title}</h3>
+                    <div class="flex items-baseline gap-2 mb-4">
+                        <span class="text-xs text-kernel-muted">desde</span>
+                        <span class="text-4xl font-bold tracking-tight">$${p.price}</span>
+                        <span class="text-sm font-mono text-kernel-muted">MXN</span>
+                    </div>
+                    <p class="text-sm text-kernel-muted mb-5">${p.desc}</p>
+                    <ul class="space-y-3 text-sm mb-8 flex-1">${p.feats.map(f => `<li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 shrink-0 text-emerald-400"></i><span class="text-kernel-muted">${f}</span></li>`).join('')}</ul>
+                    <button data-plan="${i}" class="${p.hot ? 'btn-primary' : 'btn-ghost'} w-full py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="shopping-cart" class="w-4 h-4"></i> Elegir ${p.name}</button>
+                </div>
+            </div>`).join('');
+        document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => {
+            const p = PLANS[b.dataset.plan];
+            openModal(`Plan ${p.name} · ${p.title} - $${p.price} MXN`);
+        }));
+
+        /* Ilustraciones de los servicios (integradas, siempre cargan) */
+        const bar = (x, y, w, h = 8, o = .14, f = '#fff') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${f}" fill-opacity="${o}"/>`;
+        const frame = (k, body) => `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" class="w-full h-full" aria-hidden="true">
+            <defs><linearGradient id="g${k}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#fff" stop-opacity=".02"/></linearGradient></defs>
+            <rect width="400" height="300" fill="#141414"/>
+            <rect x="36" y="34" width="328" height="232" rx="14" fill="#1d1d1d" stroke="#fff" stroke-opacity=".12"/>
+            <circle cx="54" cy="50" r="3.5" fill="#fff" fill-opacity=".25"/><circle cx="66" cy="50" r="3.5" fill="#fff" fill-opacity=".25"/><circle cx="78" cy="50" r="3.5" fill="#fff" fill-opacity=".25"/>
+            ${bar(130, 44, 140, 12, .08)}${body}</svg>`;
+        const box = (x, y, w, h, r = 10) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="#fff" fill-opacity=".05" stroke="#fff" stroke-opacity=".1"/>`;
+        const MOCKS = {
+            landing: k => bar(58, 86, 150, 14, .9) + bar(58, 108, 110, 14, .9) + bar(58, 134, 170, 7, .25) + bar(58, 148, 140, 7, .25)
+                + '<rect x="58" y="168" width="86" height="26" rx="13" fill="#fff"/>' + bar(74, 177, 54, 8, .7, '#000')
+                + '<rect x="152" y="168" width="70" height="26" rx="13" fill="none" stroke="#fff" stroke-opacity=".3"/>'
+                + `<circle cx="298" cy="128" r="48" fill="url(#g${k})"/><circle cx="298" cy="128" r="30" fill="none" stroke="#fff" stroke-opacity=".2"/><circle cx="320" cy="108" r="5" fill="#10b981"/>`
+                + [58, 156, 254].map(x => box(x, 216, 88, 36) + bar(x + 10, 228, 34, 9, .8) + bar(x + 10, 242, 50, 5, .25)).join(''),
+            store: k => '<circle cx="340" cy="50" r="9" fill="#10b981"/>' + bar(336, 48, 8, 4, .9, '#000')
+                + [58, 156, 254].map(x => box(x, 74, 88, 104) + `<rect x="${x + 8}" y="82" width="72" height="54" rx="6" fill="url(#g${k})"/>`
+                    + bar(x + 8, 146, 56, 8, .8) + bar(x + 8, 160, 34, 6, .3) + `<circle cx="${x + 72}" cy="160" r="7" fill="#fff" fill-opacity=".9"/>`).join('')
+                + '<rect x="58" y="196" width="284" height="46" rx="23" fill="#10b981"/><circle cx="84" cy="219" r="13" fill="#fff"/>'
+                + bar(108, 212, 110, 8, .9, '#000') + bar(108, 226, 70, 6, .4, '#000')
+                + '<circle cx="320" cy="219" r="13" fill="#000" fill-opacity=".85"/><path d="M314 219h12m-4-4 4 4-4 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+            catalog: k => [[58, 44], [108, 52], [166, 40], [212, 48]].map(([x, w], i) => `<rect x="${x}" y="70" width="${w}" height="18" rx="9" fill="${i ? 'none' : '#fff'}" stroke="#fff" stroke-opacity=".25"/>`).join('')
+                + `<rect x="58" y="102" width="150" height="142" rx="12" fill="url(#g${k})" stroke="#fff" stroke-opacity=".12"/>`
+                + '<circle cx="133" cy="156" r="28" fill="none" stroke="#fff" stroke-opacity=".4"/><circle cx="133" cy="156" r="12" fill="#fff" fill-opacity=".2"/>'
+                + bar(70, 212, 84, 9, .9) + bar(70, 227, 52, 6, .4)
+                + [102, 152, 202].map(y => box(222, y, 120, 42, 8) + `<rect x="230" y="${y + 8}" width="26" height="26" rx="6" fill="#fff" fill-opacity=".12"/>` + bar(264, y + 11, 68, 8, .8) + bar(264, y + 25, 40, 6, .3)).join('')
+        };
+        document.querySelectorAll('[data-mock]').forEach(el => { const k = el.dataset.mock; el.innerHTML = frame(k, MOCKS[k](k)); });
+
+        icons();
+    </script>
+</body>
+</html>
