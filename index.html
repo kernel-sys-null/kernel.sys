@@ -736,6 +736,19 @@
             b._fx = setTimeout(() => b.classList.remove('fx-on'), 1100);
         });
 
+        /* Al bajar la página, cada botón reproduce su animación cuando entra en pantalla */
+        const fxPlay = (b, wait = 0, ms = 1300) => {
+            clearTimeout(b._fx);
+            setTimeout(() => { b.classList.add('fx-on'); b._fx = setTimeout(() => b.classList.remove('fx-on'), ms); }, wait);
+        };
+        if (!reduce && 'IntersectionObserver' in window) {
+            const fxIO = new IntersectionObserver(es => {
+                let n = 0;
+                es.forEach(en => { if (en.isIntersecting) fxPlay(en.target, 150 * n++); });
+            }, { threshold: .6, rootMargin: '0px 0px -6% 0px' });
+            document.querySelectorAll(FX_SEL).forEach(b => { if (!b.closest('#order-modal, #quote-modal, #dial')) fxIO.observe(b); });
+        }
+
         /* Ilustraciones de los servicios (integradas, siempre cargan) */
         const bar = (x, y, w, h = 8, o = .14, f = '#fff') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${f}" fill-opacity="${o}"/>`;
         const frame = (k, body) => `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" class="w-full h-full" aria-hidden="true">
