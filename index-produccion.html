@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERNEL_ | Arquitectura Digital de Alta Precisión</title>
+    <meta name="description" content="Páginas web minimalistas de alto rendimiento. Contáctanos en Instagram @kernel.null">
+    <meta name="theme-color" content="#0d0d0d">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:site_name" content="KERNEL_">
+    <meta property="og:title" content="KERNEL_ | Páginas web minimalistas y rápidas">
+    <meta property="og:description" content="Tiendas con catálogo y carrito por WhatsApp. Diseño dark minimalista adaptado a celular. Desde $1,299 MXN. Cotiza por DM en @kernel.null">
+    <link rel="canonical" href="https://kernel-sys-null.github.io/kernel.sys/">
+    <meta property="og:url" content="https://kernel-sys-null.github.io/kernel.sys/">
+    <!-- og-image.png debe estar subida junto a index.html en el mismo repositorio -->
+    <meta property="og:image" content="https://kernel-sys-null.github.io/kernel.sys/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0d0d'/%3E%3Ctext x='15' y='23' font-family='sans-serif' font-size='19' font-weight='700' fill='white' text-anchor='middle'%3EK%3C/text%3E%3Ccircle cx='26' cy='25' r='2.5' fill='%2310b981'/%3E%3C/svg%3E">
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; background:#0d0d0d; color:#fff; overflow-x:hidden; }
+        .glass-panel { background:rgba(26,26,26,.6); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.1); }
+        .card-hover { transition:all .3s cubic-bezier(.4,0,.2,1); }
+        .card-hover:hover { transform:translateY(-5px); border-color:rgba(255,255,255,.3); box-shadow:0 10px 30px -10px rgba(0,0,0,.6); }
+        .neon-dot { width:8px; height:8px; background:#10b981; border-radius:50%; display:inline-block; box-shadow:0 0 10px #10b981; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .modal-enter { animation:modalIn .3s ease-out; }
+        @keyframes modalIn { from{opacity:0; transform:scale(.95)} to{opacity:1; transform:scale(1)} }
+        ::-webkit-scrollbar { width:8px; } ::-webkit-scrollbar-track { background:#0d0d0d; }
+        ::-webkit-scrollbar-thumb { background:#333; border-radius:4px; } ::-webkit-scrollbar-thumb:hover { background:#444; }
+        /* Luz que sigue al cursor en el hero */
+        #inicio { --x:70%; --y:35%; }
+        .hero-glow { position:absolute; inset:0; pointer-events:none; z-index:-1;
+            background:radial-gradient(500px circle at var(--x) var(--y), rgba(255,255,255,.08), transparent 70%); }
+        /* ===== Botones con vida: cada uno con su propia animación ===== */
+        .btn-primary, .btn-ghost, .btn-seg { position:relative; overflow:hidden; isolation:isolate; -webkit-tap-highlight-color:transparent; }
+        .btn-primary, .btn-ghost { transition:transform .3s cubic-bezier(.3,1.5,.5,1), box-shadow .3s, color .35s, border-color .35s, background-color .3s; }
+        .btn-primary { background:#fff; color:#000; font-weight:700; }
+        .btn-ghost { border:1px solid rgba(255,255,255,.15); font-weight:600; }
+        .btn-seg { transition:color .3s; }
+        .fx-left::before,.fx-right::before,.fx-down::before,.fx-up::before,.fx-rise::before,.fx-mid::before,.fx-skew::before,.fx-circle::before,.fx-corner::before,.fx-insta::before,.fx-flow::before { content:''; position:absolute; inset:0; z-index:-1; background:#fff; border-radius:inherit; transition:transform .45s cubic-bezier(.65,0,.35,1), clip-path .55s cubic-bezier(.65,0,.35,1), opacity .4s; }
+        .fx-left::before { transform:scaleX(0); transform-origin:right; } .fx-right::before { transform:scaleX(0); transform-origin:left; }
+        .fx-down::before { transform:scaleY(0); transform-origin:bottom; } .fx-up::before { transform:scaleY(0); transform-origin:top; }
+        .fx-rise::before { background:#10b981; transform:scaleY(0); transform-origin:top; } .fx-mid::before { transform:scaleX(0); }
+        .fx-skew::before { inset:0 -20%; transform:translateX(-120%) skewX(-25deg); }
+        .fx-circle::before { clip-path:circle(0 at 50% 50%); } .fx-corner::before { clip-path:circle(0 at 0 0); }
+        .fx-insta::before { background:linear-gradient(45deg,#f09433,#dc2743,#bc1888,#833ab4); clip-path:circle(0 at 100% 100%); }
+        .fx-flow::before { background:linear-gradient(90deg,#f09433,#dc2743,#bc1888,#833ab4,#f09433); background-size:300% 100%; opacity:0; }
+        .fx-shine::after { content:''; position:absolute; top:0; bottom:0; left:0; width:45%; pointer-events:none; background:linear-gradient(100deg,transparent,rgba(16,185,129,.45),transparent); transform:translateX(-130%) skewX(-20deg); animation:shine 4.5s ease-in-out infinite; }
+        .fx-terminal::after { content:'_'; font-family:monospace; opacity:0; }
+        .btn-pulse { animation:ring 2.6s ease-out infinite; }
+        @keyframes shine { 0%,62% { transform:translateX(-130%) skewX(-20deg); } 100% { transform:translateX(330%) skewX(-20deg); } }
+        @keyframes ring { 0% { box-shadow:0 0 0 0 rgba(16,185,129,.5); } 70%,100% { box-shadow:0 0 0 16px rgba(16,185,129,0); } }
+        @keyframes flow { to { background-position:300% 0; } }
+        @keyframes neon { 0% { box-shadow:0 0 0 0 rgba(16,185,129,.7); } 100% { box-shadow:0 0 0 18px rgba(16,185,129,0); } }
+        @keyframes stripes { to { background-position:28px 0; } }
+        @keyframes hop { 0%,100% { transform:translateY(0); } 40% { transform:translateY(-7px); } 60% { transform:translateY(-3px); } }
+        @keyframes shake { 0%,100% { transform:translateX(0); } 20% { transform:translateX(-4px) rotate(-2deg); } 40% { transform:translateX(4px) rotate(2deg); } 60% { transform:translateX(-3px); } 80% { transform:translateX(3px); } }
+        @keyframes nudge { 0%,100% { transform:translateY(0); } 50% { transform:translateY(4px); } }
+        @keyframes selIn { from { transform:scale(.97); } to { transform:scale(1); } }
+        @keyframes dialIn { from { opacity:0; transform:translateY(14px) scale(.9); } to { opacity:1; transform:none; } }
+        .btn-primary svg, .btn-ghost svg, #extras svg, #dial-menu svg, button[aria-label="Cerrar"] svg { transition:transform .35s cubic-bezier(.3,1.6,.5,1); }
+        #extras svg { transition-duration:.6s; }
+        :is(#who,#q-tabs,#q-extras) button[aria-pressed="true"] { animation:selIn .3s cubic-bezier(.3,1.6,.5,1); }
+        #dial-menu > a { animation:dialIn .4s cubic-bezier(.3,1.4,.5,1) backwards; }
+        #dial-menu > a:nth-child(3) { animation-delay:.06s; } #dial-menu > a:nth-child(2) { animation-delay:.12s; } #dial-menu > a:nth-child(1) { animation-delay:.18s; }
+        @media (hover:hover) {
+            .btn-primary:hover { transform:translateY(-3px) scale(1.03); background-color:#f4f4f5; box-shadow:0 12px 28px -8px rgba(255,255,255,.4), 0 0 0 4px rgba(16,185,129,.2); }
+            .btn-pulse:hover { animation:none; }
+            .btn-ghost:hover { color:#000; border-color:#fff; transform:translateY(-3px); box-shadow:0 10px 26px -10px rgba(255,255,255,.4); }
+            .btn-seg:hover { color:#000; }
+            .fx-left:hover::before, .fx-right:hover::before, .fx-mid:hover::before { transform:scaleX(1); } .fx-left:hover::before { transform-origin:left; } .fx-right:hover::before { transform-origin:right; }
+            .fx-down:hover::before, .fx-up:hover::before, .fx-rise:hover::before { transform:scaleY(1); } .fx-down:hover::before { transform-origin:top; } .fx-up:hover::before, .fx-rise:hover::before { transform-origin:bottom; }
+            .fx-skew:hover::before { transform:translateX(0) skewX(-25deg); }
+            .fx-circle:hover::before { clip-path:circle(150% at 50% 50%); } .fx-corner:hover::before { clip-path:circle(150% at 0 0); } .fx-insta:hover::before { clip-path:circle(150% at 100% 100%); }
+            .fx-flow:hover::before { opacity:1; animation:flow 1.6s linear infinite; } .fx-insta:hover, .fx-flow:hover { color:#fff; }
+            .fx-shine:hover::after { animation-duration:1.1s; }
+            .btn-primary.fx-terminal:hover { background-color:#0d0d0d; color:#10b981; box-shadow:inset 0 0 0 1px #10b981, 0 0 26px -4px rgba(16,185,129,.7); }
+            .fx-terminal:hover::after { opacity:1; animation:blink .8s steps(1) infinite; }
+            .btn-primary.fx-glow:hover { background-color:#10b981; box-shadow:0 0 34px rgba(16,185,129,.65); }
+            .btn-primary.fx-neon:hover { animation:neon 1s ease-out infinite; }
+            .btn-primary.fx-stripes:hover { background-image:repeating-linear-gradient(45deg,#fff 0 10px,#d4f5e9 10px 20px); background-size:28px 28px; animation:stripes .7s linear infinite; }
+            .btn-primary.fx-bounce:hover { animation:hop .7s ease-in-out infinite; box-shadow:0 12px 24px -8px rgba(37,211,102,.6); }
+            .btn-ghost.fx-shake:hover { background:#fff; animation:shake .5s ease-in-out infinite; }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="send"] { transform:translate(3px,-3px) rotate(8deg); }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="message-circle"] { transform:scale(1.2) rotate(-10deg); }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="shopping-cart"] { transform:translateX(4px); }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="instagram"] { transform:rotate(-12deg) scale(1.2); }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="mail"] { transform:translateY(-2px) scale(1.15); }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="phone"] { transform:rotate(-14deg) scale(1.15); }
+            :is(.btn-primary,.btn-ghost):hover svg[data-icon="copy"] { transform:scale(1.2); }
+            .btn-primary:hover svg[data-icon="play"] { transform:translateX(3px) scale(1.2); }
+            .btn-primary:hover svg[data-icon="arrow-down"] { animation:nudge .8s ease-in-out infinite; }
+            #extras button:nth-child(1):hover svg { transform:rotate(360deg); } #extras button:nth-child(2):hover svg { transform:rotate(144deg) scale(1.3); }
+            #extras button:nth-child(3):hover svg { transform:scale(1.3) translateY(-2px); } #extras button:nth-child(4):hover svg { transform:rotate(-360deg); }
+            button[aria-label="Cerrar"]:hover svg { transform:rotate(90deg) scale(1.15); }
+            :is(#who,#q-tabs,#q-extras) button:hover { transform:translateY(-2px); }
+            #dial-menu > a:hover { transform:translateX(-4px); }
+            #dial-menu > a:nth-child(1):hover { background:#25d366; color:#000; } #dial-menu > a:nth-child(1):hover svg { transform:rotate(-15deg) scale(1.25); }
+            #dial-menu > a:nth-child(2):hover { background:#10b981; color:#000; } #dial-menu > a:nth-child(2):hover svg { transform:scale(1.35); }
+            #dial-menu > a:nth-child(3):hover { background:linear-gradient(45deg,#f09433,#dc2743,#833ab4); color:#fff; } #dial-menu > a:nth-child(3):hover svg { transform:rotate(15deg) scale(1.25); }
+            #dial-menu > a:nth-child(4):hover { background:#60a5fa; color:#000; } #dial-menu > a:nth-child(4):hover svg { transform:translateY(-3px) scale(1.2); }
+            footer a[aria-label^="Instagram"]:hover { transform:translateY(-3px) rotate(-8deg); }
+        }
+        /* Celular: mismas animaciones al tocar (JS agrega .fx-on) */
+        .btn-primary.fx-on { transform:translateY(-3px) scale(1.03); background-color:#f4f4f5; box-shadow:0 12px 28px -8px rgba(255,255,255,.4), 0 0 0 4px rgba(16,185,129,.2); }
+        .btn-pulse.fx-on { animation:none; }
+        .btn-ghost.fx-on { color:#000; border-color:#fff; transform:translateY(-3px); box-shadow:0 10px 26px -10px rgba(255,255,255,.4); }
+        .btn-seg.fx-on { color:#000; }
+        .fx-left.fx-on::before, .fx-right.fx-on::before, .fx-mid.fx-on::before { transform:scaleX(1); }
+        .fx-left.fx-on::before { transform-origin:left; }
+        .fx-right.fx-on::before { transform-origin:right; }
+        .fx-down.fx-on::before, .fx-up.fx-on::before, .fx-rise.fx-on::before { transform:scaleY(1); }
+        .fx-down.fx-on::before { transform-origin:top; }
+        .fx-up.fx-on::before, .fx-rise.fx-on::before { transform-origin:bottom; }
+        .fx-skew.fx-on::before { transform:translateX(0) skewX(-25deg); }
+        .fx-circle.fx-on::before { clip-path:circle(150% at 50% 50%); }
+        .fx-corner.fx-on::before { clip-path:circle(150% at 0 0); }
+        .fx-insta.fx-on::before { clip-path:circle(150% at 100% 100%); }
+        .fx-flow.fx-on::before { opacity:1; animation:flow 1.6s linear infinite; }
+        .fx-insta.fx-on, .fx-flow.fx-on { color:#fff; }
+        .fx-shine.fx-on::after { animation-duration:1.1s; }
+        .btn-primary.fx-terminal.fx-on { background-color:#0d0d0d; color:#10b981; box-shadow:inset 0 0 0 1px #10b981, 0 0 26px -4px rgba(16,185,129,.7); }
+        .fx-terminal.fx-on::after { opacity:1; animation:blink .8s steps(1) infinite; }
+        .btn-primary.fx-glow.fx-on { background-color:#10b981; box-shadow:0 0 34px rgba(16,185,129,.65); }
+        .btn-primary.fx-neon.fx-on { animation:neon 1s ease-out infinite; }
+        .btn-primary.fx-stripes.fx-on { background-image:repeating-linear-gradient(45deg,#fff 0 10px,#d4f5e9 10px 20px); background-size:28px 28px; animation:stripes .7s linear infinite; }
+        .btn-primary.fx-bounce.fx-on { animation:hop .7s ease-in-out infinite; box-shadow:0 12px 24px -8px rgba(37,211,102,.6); }
+        .btn-ghost.fx-shake.fx-on { background:#fff; animation:shake .5s ease-in-out infinite; }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="send"] { transform:translate(3px,-3px) rotate(8deg); }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="message-circle"] { transform:scale(1.2) rotate(-10deg); }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="shopping-cart"] { transform:translateX(4px); }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="instagram"] { transform:rotate(-12deg) scale(1.2); }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="mail"] { transform:translateY(-2px) scale(1.15); }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="phone"] { transform:rotate(-14deg) scale(1.15); }
+        :is(.btn-primary,.btn-ghost).fx-on svg[data-icon="copy"] { transform:scale(1.2); }
+        .btn-primary.fx-on svg[data-icon="play"] { transform:translateX(3px) scale(1.2); }
+        .btn-primary.fx-on svg[data-icon="arrow-down"] { animation:nudge .8s ease-in-out infinite; }
+        #extras button:nth-child(1).fx-on svg { transform:rotate(360deg); }
+        #extras button:nth-child(2).fx-on svg { transform:rotate(144deg) scale(1.3); }
+        #extras button:nth-child(3).fx-on svg { transform:scale(1.3) translateY(-2px); }
+        #extras button:nth-child(4).fx-on svg { transform:rotate(-360deg); }
+        button[aria-label="Cerrar"].fx-on svg { transform:rotate(90deg) scale(1.15); }
+        :is(#who,#q-tabs,#q-extras) button.fx-on { transform:translateY(-2px); }
+        #dial-menu > a.fx-on { transform:translateX(-4px); }
+        #dial-menu > a:nth-child(1).fx-on { background:#25d366; color:#000; }
+        #dial-menu > a:nth-child(1).fx-on svg { transform:rotate(-15deg) scale(1.25); }
+        #dial-menu > a:nth-child(2).fx-on { background:#10b981; color:#000; }
+        #dial-menu > a:nth-child(2).fx-on svg { transform:scale(1.35); }
+        #dial-menu > a:nth-child(3).fx-on { background:linear-gradient(45deg,#f09433,#dc2743,#833ab4); color:#fff; }
+        #dial-menu > a:nth-child(3).fx-on svg { transform:rotate(15deg) scale(1.25); }
+        #dial-menu > a:nth-child(4).fx-on { background:#60a5fa; color:#000; }
+        #dial-menu > a:nth-child(4).fx-on svg { transform:translateY(-3px) scale(1.2); }
+        footer a[aria-label^="Instagram"].fx-on { transform:translateY(-3px) rotate(-8deg); }
+        .btn-primary:active, .btn-ghost:active, :is(#who,#q-tabs,#q-extras) button:active { transform:scale(.96); }
+        .caret { display:inline-block; width:7px; height:14px; background:#10b981; vertical-align:middle; animation:blink 1s steps(1) infinite; }
+        @keyframes blink { 50%{opacity:0} }
+        /* Animaciones al presionar */
+        .ripple { position:absolute; margin:0 !important; border-radius:9999px; background:currentColor; opacity:.28; transform:scale(0); pointer-events:none; animation:ripple .65s ease-out forwards; }
+        @keyframes ripple { to { transform:scale(2.6); opacity:0; } }
+        .pop { animation:pop .4s cubic-bezier(.3,1.6,.5,1); }
+        @keyframes pop { 0%{transform:scale(1)} 35%{transform:scale(.93)} 70%{transform:scale(1.04)} 100%{transform:scale(1)} }
+        .ia-fly { animation:fly .6s ease-in; }
+        @keyframes fly { 0%{transform:translate(0,0)} 50%{transform:translate(14px,-14px) scale(.6); opacity:0} 51%{transform:translate(-14px,14px) scale(.6); opacity:0} 100%{transform:translate(0,0); opacity:1} }
+        .ia-wiggle { animation:wiggle .55s ease-in-out; }
+        @keyframes wiggle { 0%,100%{transform:rotate(0)} 20%{transform:rotate(-18deg)} 40%{transform:rotate(16deg)} 60%{transform:rotate(-10deg)} 80%{transform:rotate(8deg)} }
+        .ia-bounce { animation:bounceY .6s ease-out; }
+        @keyframes bounceY { 0%,100%{transform:translateY(0)} 30%{transform:translateY(6px)} 60%{transform:translateY(-3px)} }
+        .ia-cart { animation:cartI .6s ease-in-out; }
+        @keyframes cartI { 0%{transform:translateX(0)} 40%{transform:translateX(8px) rotate(-8deg)} 70%{transform:translateX(-3px)} 100%{transform:translateX(0)} }
+        .ia-tilt { animation:tilt .55s ease-in-out; }
+        @keyframes tilt { 0%,100%{transform:rotate(0) scale(1)} 40%{transform:rotate(14deg) scale(1.25)} 70%{transform:rotate(-8deg) scale(1.1)} }
+        .ia-pulse { animation:pulseI .5s ease-out; }
+        @keyframes pulseI { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
+        .ia-spin { animation:spinI .5s ease-in-out; }
+        @keyframes spinI { to{transform:rotate(180deg)} }
+        #toast { transition:all .3s; }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid #fff; outline-offset:3px; }
+        @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } }
+            /* Preguntas frecuentes */
+        .faq summary::-webkit-details-marker { display:none; }
+        .faq summary:focus-visible { outline:2px solid #fff; outline-offset:4px; border-radius:12px; }
+        .faq { transition:border-color .3s, background-color .3s; }
+        .faq[open] { border-color:rgba(255,255,255,.22); background-color:#202020; }
+        .faq-plus { transition:transform .3s cubic-bezier(.3,1.6,.5,1); }
+        .faq[open] .faq-plus { transform:rotate(45deg); color:#fff; }
+        .faq[open] .faq-body { animation:faqIn .3s ease-out; }
+        @keyframes faqIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+    </style>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"ProfessionalService","name":"KERNEL_","description":"Diseño de páginas web minimalistas: tiendas con catálogo y carrito por WhatsApp.","url":"https://kernel-sys-null.github.io/kernel.sys/","email":"kernel.sys.null@gmail.com","sameAs":["https://instagram.com/kernel.null"],"areaServed":"MX","contactPoint":[{"@type":"ContactPoint","name":"Joshua","contactType":"ventas","telephone":"+52-272-184-2482","availableLanguage":"es"},{"@type":"ContactPoint","name":"Angel","contactType":"ventas","telephone":"+52-272-194-2014","availableLanguage":"es"}]}
+    </script>
+</head>
+<body class="antialiased">
+    <a href="#inicio" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded-full focus:font-bold">Saltar al contenido</a>
+    <noscript>
+        <div style="padding:96px 24px 24px;font-family:sans-serif;max-width:720px;margin:auto;color:#fff;background:#0d0d0d;line-height:1.6">
+            <h1 style="font-size:28px">KERNEL_: páginas web minimalistas</h1>
+            <p>Para ver la página completa activa JavaScript. Mientras tanto, aquí están nuestros planes y contactos.</p>
+            <h2>Plan (precio en MXN)</h2>
+            <ul>
+                <li><b>Plan Kernel Plus, Tienda con carrito por WhatsApp:</b> $1,299. Incluye catálogo de hasta 50 productos, carrito que manda el pedido por WhatsApp, formulario de pedido, asesoría de dominio y hosting y 2 rondas de cambios.</li>
+            </ul>
+            <h2>Extras</h2>
+            <ul>
+                <li>Entrega exprés: $300</li>
+                <li>Mantenimiento mensual: $200 al mes</li>
+                <li>Cambios extra: $150 por ronda</li>
+            </ul>
+            <h2>Contacto</h2>
+            <ul>
+                <li>Instagram: <a style="color:#fff" href="https://instagram.com/kernel.null">@kernel.null</a></li>
+                <li>Correo: <a style="color:#fff" href="mailto:kernel.sys.null@gmail.com">kernel.sys.null@gmail.com</a></li>
+                <li>Joshua: <a style="color:#fff" href="https://wa.me/522721842482">WhatsApp 272 184 2482</a></li>
+                <li>Angel: <a style="color:#fff" href="https://wa.me/522721942014">WhatsApp 272 194 2014</a></li>
+            </ul>
+        </div>
+    </noscript>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 transition-all">
+        <div class="max-w-7xl mx-auto glass-panel px-6 py-3 rounded-3xl md:rounded-full">
+            <div class="flex items-center justify-between">
+                <a href="#inicio" class="text-2xl font-bold tracking-tighter">KERNEL<span class="neon-dot ml-1"></span></a>
+                <div class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-kernel-muted">
+                    <a href="#inicio" class="hover:text-white transition-colors">Inicio</a>
+                    <a href="#servicios" class="hover:text-white transition-colors">Servicios</a>
+                    <a href="#nosotros" class="hover:text-white transition-colors">Sobre Nosotros</a>
+                    <a href="#proceso" class="hover:text-white transition-colors">Proceso</a>
+                    <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+                    <a href="#contacto" class="hover:text-white transition-colors">Contacto</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="goContact()" class="btn-primary fx-shine px-5 py-2 rounded-full text-sm">Hablemos</button>
+                    <button id="menu-btn" aria-label="Abrir menú" aria-expanded="false" class="md:hidden w-10 h-10 rounded-full border border-white/10 flex items-center justify-center">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pt-4 mt-3 border-t border-white/10 flex-col gap-4 text-kernel-muted font-medium">
+                <a href="#inicio" class="mm block py-1 hover:text-white">Inicio</a>
+                <a href="#servicios" class="mm block py-1 hover:text-white">Servicios</a>
+                <a href="#nosotros" class="mm block py-1 hover:text-white">Sobre Nosotros</a>
+                <a href="#proceso" class="mm block py-1 hover:text-white">Proceso</a>
+                <a href="#faq" class="mm block py-1 hover:text-white">Preguntas frecuentes</a>
+                <a href="#contacto" class="mm block py-1 hover:text-white">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="inicio" class="relative pt-40 pb-24 px-6 overflow-hidden">
+        <div class="hero-glow"></div>
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[13px] font-medium tracking-widest uppercase">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Estándar de Alta Gama
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+                    Arquitectura Digital & Páginas Web de <span class="text-kernel-muted">Alta Precisión.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-kernel-muted max-w-xl font-light leading-relaxed">
+                    Diseños minimalistas inspirados en la estética de vanguardia. Rendimiento extremo, código limpio y experiencias que cautivan desde el primer segundo.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#servicios" class="btn-primary fx-rise btn-pulse px-7 py-4 rounded-full flex items-center gap-2">Ver plan <i data-lucide="arrow-down" class="w-4 h-4"></i></a>
+                    <div role="group" aria-label="WhatsApp directo" class="border border-white/15 rounded-full flex items-center overflow-hidden">
+                        <span class="pl-6 pr-3 py-4 flex items-center gap-2 text-kernel-muted"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</span>
+                        <button onclick="quickWA('joshua')" class="btn-seg fx-left px-4 py-4 font-bold">Joshua</button>
+                        <button onclick="quickWA('angel')" class="btn-seg fx-right pl-4 pr-6 py-4 font-bold border-l border-white/15">Angel</button>
+                    </div>
+                    <a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" class="btn-ghost fx-mid px-7 py-4 rounded-full flex items-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> @kernel.null</a>
+                </div>
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <div class="px-4 py-2 rounded-xl bg-kernel-panel border border-white/5 flex items-center gap-3">
+                        <span class="text-xl font-bold">2</span>
+                        <span class="text-[13px] text-kernel-muted uppercase tracking-tighter">Socios que te<br>atienden directo</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-kernel-panel border border-white/5 flex items-center gap-3">
+                        <span class="text-xl font-bold"><span data-count="100">100</span>%</span>
+                        <span class="text-[13px] text-kernel-muted uppercase tracking-tighter">Adaptada<br>a celular</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-kernel-panel border border-white/5 flex items-center gap-3">
+                        <span class="text-xl font-bold"><span data-count="24">24</span>h</span>
+                        <span class="text-[13px] text-kernel-muted uppercase tracking-tighter">Respuesta<br>por WhatsApp</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ventana de código animada -->
+            <div class="relative group">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-white/20 to-transparent rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+                <div class="relative bg-kernel-panel border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+                    <div class="bg-[#222] px-4 py-2 flex items-center gap-2 border-b border-white/5">
+                        <div class="flex gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500/40"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/40"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500/40"></div>
+                        </div>
+                        <div class="mx-auto text-[11px] text-kernel-muted font-mono">kernel.js</div>
+                    </div>
+                    <div class="p-6 font-mono text-[13px] sm:text-sm min-h-[290px] flex flex-col">
+                        <div id="code" class="space-y-1 flex-1"></div>
+                        <button onclick="openModal()" class="btn-primary fx-terminal mt-4 py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-4 h-4"></i> Iniciar proyecto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-24 px-6 bg-kernel-bg">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Nuestro <span class="text-kernel-muted">plan</span></h2>
+                <p class="text-kernel-muted">Todo en un solo plan, con precio claro. Precios en pesos mexicanos.</p>
+            </div>
+            <div id="plans" class="max-w-lg mx-auto"></div>
+            <div class="mt-20 mb-8">
+                <h3 class="text-2xl md:text-3xl font-bold tracking-tight mb-2">Extras <span class="text-kernel-muted">opcionales</span></h3>
+                <p class="text-kernel-muted text-sm">Agrégalos a tu plan. Toca uno para sumarlo a tu cotización.</p>
+            </div>
+            <div id="extras" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+            <p class="text-[13px] text-kernel-muted text-center mt-10">Precios en pesos mexicanos (MXN). Los extras se suman en el cotizador. El dominio y el hosting los contrata el cliente directo con su proveedor.</p>
+        </div>
+    </section>
+
+    <!-- Diferencia -->
+    <section id="nosotros" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">La Diferencia <span class="text-kernel-muted">KERNEL_</span></h2>
+                <p class="text-kernel-muted">Toca cada tarjeta para ver cómo lo hacemos.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8" id="diff"></div>
+        </div>
+    </section>
+
+    <!-- Cómo trabajamos -->
+    <section id="proceso" class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Cómo <span class="text-kernel-muted">trabajamos</span></h2>
+                <p class="text-kernel-muted">De tu idea a tu página en 4 pasos claros.</p>
+            </div>
+            <ol class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <li class="card-hover relative p-8 rounded-3xl bg-kernel-panel border border-white/5 flex flex-col gap-4">
+                    <span class="font-mono text-sm text-kernel-muted">01</span>
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="message-circle"></i></div>
+                    <h3 class="text-xl font-bold">Platicamos</h3>
+                    <p class="text-sm text-kernel-muted leading-relaxed">Cuéntanos tu idea por WhatsApp o Instagram. Te recomendamos el plan que mejor se ajusta a tu negocio.</p>
+                </li>
+                <li class="card-hover relative p-8 rounded-3xl bg-kernel-panel border border-white/5 flex flex-col gap-4">
+                    <span class="font-mono text-sm text-kernel-muted">02</span>
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="file-text"></i></div>
+                    <h3 class="text-xl font-bold">Cotización y anticipo</h3>
+                    <p class="text-sm text-kernel-muted leading-relaxed">Te mandamos una cotización clara con el precio final. Con el 50% de anticipo empezamos a trabajar.</p>
+                </li>
+                <li class="card-hover relative p-8 rounded-3xl bg-kernel-panel border border-white/5 flex flex-col gap-4">
+                    <span class="font-mono text-sm text-kernel-muted">03</span>
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="refresh-cw"></i></div>
+                    <h3 class="text-xl font-bold">Diseño y revisión</h3>
+                    <p class="text-sm text-kernel-muted leading-relaxed">Te mostramos el avance y haces tus cambios. Tu plan incluye 2 rondas de revisión.</p>
+                </li>
+                <li class="card-hover relative p-8 rounded-3xl bg-kernel-panel border border-white/5 flex flex-col gap-4">
+                    <span class="font-mono text-sm text-kernel-muted">04</span>
+                    <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="globe"></i></div>
+                    <h3 class="text-xl font-bold">Publicación y entrega</h3>
+                    <p class="text-sm text-kernel-muted leading-relaxed">Publicamos tu página, la probamos en celular y la dejamos funcionando. Pagas el 50% restante y es tuya.</p>
+                </li>
+            </ol>
+            <div class="text-center mt-12">
+                <button onclick="openFlow()" class="btn-primary fx-glow px-7 py-4 rounded-full inline-flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Empezar mi pedido</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preguntas frecuentes -->
+    <section id="faq" class="py-24 px-6 bg-kernel-bg border-t border-white/5">
+        <div class="max-w-3xl mx-auto">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Preguntas <span class="text-kernel-muted">frecuentes</span></h2>
+                <p class="text-kernel-muted">Lo que más nos preguntan antes de empezar.</p>
+            </div>
+            <div class="space-y-3">
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Qué pasa cuando envío mi pedido?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-[13px] sm:text-sm text-kernel-muted leading-relaxed">Se abre WhatsApp con tu pedido ya escrito. Nosotros lo revisamos, te confirmamos los detalles, te mandamos la cotización final y los datos para el anticipo. Cuando lo recibimos, empezamos tu página.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Cuánto tarda mi página?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">Depende del plan y de qué tan rápido nos mandes tu información (textos, fotos y logo). Al cotizar te damos una fecha estimada. Si la necesitas más rápido, existe la entrega exprés (extra de $300 MXN).</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Qué necesito para empezar?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">El nombre de tu negocio, tus productos o servicios con precios, tu WhatsApp y redes sociales, y tus fotos y logo si ya los tienes. Si no tienes logo, no hay problema: usamos el nombre de tu negocio en texto.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Cómo se paga?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">Pagas el 50% de anticipo para empezar y el 50% restante al entregar. Al cotizar te damos los datos para el pago.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Qué necesito para tener mi dominio y hosting?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">Tu página necesita un dominio (como tunegocio.com) y un lugar donde publicarse (hosting). Los contratas tú directo con el proveedor y el dominio se renueva cada año. Si quieres, te asesoramos para elegirlos y contratarlos: va incluido en tu plan.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Puedo pedir cambios después de que me la entreguen?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">Tu plan incluye 2 rondas de cambios. Después, cada ronda extra cuesta $150 MXN. Si prefieres tenerla siempre al día, el mantenimiento mensual cuesta $200 MXN y cubre cambios de precios, fotos y textos.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Se va a ver bien en mi celular?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">Sí. Diseñamos primero para celular y también se ve bien en computadora.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>¿Cómo recibo los pedidos de mi tienda?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">Con tu plan, tu cliente arma su pedido en el carrito y te lo envía por WhatsApp, ordenado y con el total. No incluye pasarela de pago: el pago lo acuerdas tú con tu cliente.</p>
+                </details>
+                <details name="faq" class="faq rounded-2xl bg-kernel-panel border border-white/5 px-6 py-5">
+                    <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold"><span>No sé nada de páginas web, ¿puedo contratar?</span><i data-lucide="plus" class="faq-plus w-5 h-5 shrink-0 text-kernel-muted"></i></summary>
+                    <p class="faq-body mt-4 text-sm text-kernel-muted leading-relaxed">¡Claro! Nosotros te guiamos en cada paso, sin tecnicismos.</p>
+                </details>
+            </div>
+            <div class="text-center mt-12">
+                <p class="text-kernel-muted text-sm mb-4">¿Te quedó otra duda?</p>
+                <button onclick="openModal()" class="btn-primary fx-skew px-7 py-4 rounded-full inline-flex items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Cuéntanos tu proyecto</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-24 px-6 bg-kernel-bg border-t border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-14 space-y-6">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight">Hablemos de <span class="text-kernel-muted">tu proyecto.</span></h2>
+                <p class="text-kernel-muted max-w-xl mx-auto">Escríbenos directo a cualquiera de los dos o síguenos en Instagram para ver nuestros trabajos.</p>
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <a href="https://ig.me/m/kernel.null" target="_blank" rel="noopener" class="btn-primary fx-flow inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg"><i data-lucide="instagram" class="w-5 h-5"></i> Mandar DM en Instagram
+                    </a>
+                    <a href="mailto:kernel.sys.null@gmail.com?subject=Quiero%20cotizar%20una%20p%C3%A1gina%20web" class="btn-ghost fx-skew inline-flex items-center gap-3 px-8 py-4 rounded-full text-lg">
+                        <i data-lucide="mail" class="w-5 h-5"></i> Escribir por correo
+                    </a>
+                    <button onclick="copyMail()" aria-label="Copiar correo" class="btn-ghost fx-corner w-14 h-14 rounded-full flex items-center justify-center">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <p class="text-sm text-kernel-muted">kernel.sys.null@gmail.com</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8" id="team"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-white/5 bg-kernel-bg">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 mb-12">
+            <div class="space-y-5">
+                <span class="text-2xl font-bold tracking-tighter">KERNEL<span class="neon-dot ml-1"></span></span>
+                <p class="text-sm text-kernel-muted leading-relaxed">Elevando el estándar del diseño web comercial a través de la precisión y el minimalismo.</p>
+                <a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" aria-label="Instagram de KERNEL_" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                    <i data-lucide="instagram" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <div>
+                <h4 class="font-bold mb-5">Mapa del Sitio</h4>
+                <ul class="space-y-3 text-sm text-kernel-muted">
+                    <li><a href="#inicio" class="hover:text-white transition-colors">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-white transition-colors">Servicios</a></li>
+                    <li><a href="#nosotros" class="hover:text-white transition-colors">Nosotros</a></li>
+                    <li><a href="#proceso" class="hover:text-white transition-colors">Cómo trabajamos</a></li>
+                    <li><a href="#faq" class="hover:text-white transition-colors">Preguntas frecuentes</a></li>
+                    <li><a href="#contacto" class="hover:text-white transition-colors">Contacto</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-5">Contacto</h4>
+                <ul class="space-y-3 text-sm text-kernel-muted" id="foot-contact">
+                    <li><a href="https://instagram.com/kernel.null" target="_blank" rel="noopener" class="text-white font-bold hover:underline">@kernel.null</a></li>
+                    <li><a href="mailto:kernel.sys.null@gmail.com" class="hover:text-white transition-colors break-all">kernel.sys.null@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-[13px] text-kernel-muted">&copy; 2026 KERNEL_. Todos los derechos reservados.</p>
+            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[13px] text-kernel-muted">
+                <button type="button" onclick="openLegal('privacidad')" class="hover:text-white hover:underline underline-offset-4">Aviso de privacidad</button>
+                <button type="button" onclick="openLegal('condiciones')" class="hover:text-white hover:underline underline-offset-4">Condiciones del servicio</button>
+                <span>Built with precision by KERNEL_</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón flotante -->
+    <div id="dial" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        <div id="dial-menu" class="hidden flex-col items-end gap-2"></div>
+        <button id="dial-btn" aria-expanded="false" aria-label="Contacto rápido" class="btn-primary btn-pulse h-14 px-5 rounded-full shadow-2xl flex items-center gap-2">
+            <i data-lucide="message-circle" class="w-5 h-5"></i><span id="dial-label" class="hidden sm:inline">Contacto rápido</span>
+        </button>
+    </div>
+
+    <!-- Modal de solicitud -->
+    <div id="order-modal" class="fixed inset-0 z-[100] hidden items-center justify-center px-6" role="dialog" aria-modal="true" aria-labelledby="m-title">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-kernel-panel border border-white/10 p-8 rounded-[2rem] max-w-md w-full modal-enter shadow-2xl max-h-[92vh] overflow-y-auto">
+            <button onclick="closeModal()" aria-label="Cerrar" class="absolute top-6 right-6 text-kernel-muted hover:text-white"><i data-lucide="x"></i></button>
+            <div class="mb-6">
+                <h3 id="m-title" class="text-2xl font-bold mb-2">Cuéntanos tu proyecto</h3>
+                <p id="m-service" class="text-kernel-muted text-sm"></p>
+            </div>
+            <form id="order-form" class="space-y-4">
+                <div>
+                    <label for="f-name" class="block text-[13px] text-kernel-muted font-bold mb-2">Tu nombre</label>
+                    <input id="f-name" type="text" autocomplete="name" required class="w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all">
+                </div>
+                <div>
+                    <label for="f-city" class="block text-[13px] text-kernel-muted font-bold mb-2">Ciudad</label>
+                    <input id="f-city" type="text" autocomplete="address-level2" class="w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all">
+                </div>
+                <div>
+                    <label for="f-msg" class="block text-[13px] text-kernel-muted font-bold mb-2">Cuéntanos tu idea (opcional)</label>
+                    <textarea id="f-msg" rows="2" class="w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all resize-none"></textarea>
+                </div>
+                <div>
+                    <span class="block text-[13px] text-kernel-muted font-bold mb-2">¿Con quién quieres hablar?</span>
+                    <div id="who" class="grid grid-cols-2 gap-3"></div>
+                </div>
+                <button type="submit" class="btn-primary fx-stripes w-full py-4 rounded-xl mt-2 flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i> Enviar por WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cotizador -->
+    <div id="quote-modal" class="fixed inset-0 z-[100] hidden items-center justify-center px-6" role="dialog" aria-modal="true" aria-labelledby="q-heading">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeQuote()"></div>
+        <div class="relative bg-kernel-panel border border-white/10 p-8 rounded-[2rem] max-w-md w-full modal-enter shadow-2xl max-h-[92vh] overflow-y-auto">
+            <button onclick="closeQuote()" aria-label="Cerrar" class="absolute top-6 right-6 text-kernel-muted hover:text-white"><i data-lucide="x"></i></button>
+            <h3 id="q-heading" class="text-2xl font-bold mb-1">Cotizador</h3>
+            <p class="text-kernel-muted text-sm mb-5">Marca lo que necesitas y arma tu cotización.</p>
+            <div id="q-tabs" class="grid grid-cols-3 gap-2 mb-5"></div>
+            <div class="rounded-2xl bg-[#222] border border-white/5 p-5 mb-5">
+                <p id="q-name" class="text-sm text-kernel-muted mb-2"></p>
+                <div class="flex items-baseline gap-2"><span class="text-[13px] text-kernel-muted">desde</span><span id="q-price" class="text-4xl font-bold tracking-tight"></span><span class="text-sm font-mono text-kernel-muted">MXN</span></div>
+                <p id="q-inc" class="text-[13px] text-emerald-400 mt-3 empty:hidden"></p>
+            </div>
+            <span class="block text-[13px] text-kernel-muted font-bold mb-2">Extras (opcionales)</span>
+            <div id="q-extras" class="space-y-2 mb-5"></div>
+            <div class="flex items-end justify-between mb-6 pt-4 border-t border-white/10">
+                <span class="text-sm text-kernel-muted">Total estimado</span>
+                <div class="text-right"><span id="q-total" class="text-3xl font-bold tracking-tight"></span> <span class="text-sm font-mono text-kernel-muted">MXN</span><p id="q-month" class="text-[13px] text-kernel-muted"></p></div>
+            </div>
+            <button onclick="closeQuote(); openFlow()" class="btn-primary fx-insta w-full py-3 rounded-xl text-sm flex items-center justify-center gap-2 mb-3"><i data-lucide="file-text" class="w-4 h-4"></i> Hacer mi pedido completo</button>
+            <p class="text-[13px] text-kernel-muted text-center mb-3">o envía solo la cotización:</p>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="sendQuote('joshua')" class="btn-primary fx-glow py-3 rounded-xl text-sm flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Enviar a Joshua</button>
+                <button onclick="sendQuote('angel')" class="btn-ghost fx-right py-3 rounded-xl text-sm flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Enviar a Angel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pedido por WhatsApp -->
+    <div id="order-flow" class="fixed inset-0 z-[100] hidden items-center justify-center px-4" role="dialog" aria-modal="true" aria-labelledby="of-title">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div class="relative bg-kernel-panel border border-white/10 rounded-[2rem] max-w-lg w-full modal-enter shadow-2xl max-h-[92vh] flex flex-col">
+            <div class="p-6 pb-4 border-b border-white/10">
+                <button onclick="closeFlow()" aria-label="Cerrar" class="absolute top-5 right-5 text-kernel-muted hover:text-white"><i data-lucide="x"></i></button>
+                <h3 id="of-title" class="text-xl font-bold pr-8">Hacer mi pedido</h3>
+                <p id="of-step" class="text-[13px] text-kernel-muted mt-1" aria-live="polite"></p>
+                <div class="h-1 rounded-full bg-white/10 mt-3 overflow-hidden"><div id="of-bar" class="h-full bg-white transition-all duration-300" style="width:0"></div></div>
+            </div>
+            <form id="of-form" novalidate class="flex-1 overflow-y-auto p-6 space-y-5"></form>
+            <div class="p-6 pt-4 border-t border-white/10 flex gap-3">
+                <button id="of-back" type="button" class="btn-ghost px-5 py-3 rounded-xl text-sm">Atrás</button>
+                <button id="of-next" type="button" class="btn-primary flex-1 py-3 rounded-xl text-sm flex items-center justify-center gap-2">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avisos legales -->
+    <div id="legal-modal" class="fixed inset-0 z-[110] hidden items-center justify-center px-4" role="dialog" aria-modal="true" aria-labelledby="lg-title">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeLegal()"></div>
+        <div class="relative bg-kernel-panel border border-white/10 rounded-[2rem] max-w-lg w-full modal-enter shadow-2xl max-h-[88vh] flex flex-col">
+            <div class="p-6 pb-3 border-b border-white/10">
+                <button onclick="closeLegal()" aria-label="Cerrar" class="absolute top-5 right-5 text-kernel-muted hover:text-white"><i data-lucide="x"></i></button>
+                <h3 id="lg-title" class="text-xl font-bold pr-8"></h3>
+            </div>
+            <div id="lg-body" class="p-6 overflow-y-auto text-sm text-kernel-muted leading-relaxed space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- Aviso -->
+    <div id="toast" role="status" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[120] bg-white text-black text-sm font-bold px-5 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none translate-y-4"></div>
+
+    <script>
+        const PEOPLE = {
+            joshua: { name:'Joshua Emiliano Acevedo Ruiz', short:'Joshua', tel:'2721842482', ig:'jxsh._.emi', ini:'JE' },
+            angel:  { name:'Angel Falcon Ramos',           short:'Angel',  tel:'2721942014', ig:'ang3lfal', ini:'AF' }
+        };
+
+        /* Mensajes de WhatsApp: con negritas, saltos de línea y emojis */
+        const WA = {
+            link: (d, text) => `https://wa.me/52${d.tel}?text=${encodeURIComponent(text)}`,
+            info: d => [`👋 ¡Hola ${d.short}!`, '',
+                'Vi la página de *KERNEL_* y me gustaría saber más sobre sus servicios. 💻', '',
+                '¡Quedo al pendiente! 🙌'].join('\n'),
+            cotizar: d => [`👋 ¡Hola ${d.short}!`, '',
+                'Vi la página de *KERNEL_* y quiero cotizar una página web para mi negocio. 🚀', '',
+                '¿Me pueden dar más información? 🙌'].join('\n'),
+            proyecto: (d, f) => {
+                const det = [...(f.servicio && f.servicio !== 'Proyecto nuevo' ? [`🛠️ *Me interesa:* ${f.servicio}`] : []),
+                    ...(f.idea ? [`💡 *Mi idea:* ${f.idea}`] : [])];
+                return [`👋 ¡Hola ${d.short}!`, '',
+                    `Soy *${f.nombre}*${f.ciudad ? ` de *${f.ciudad}* 📍` : ''}`,
+                    'Vi la página de *KERNEL_* y quiero empezar un proyecto. 🚀',
+                    ...(det.length ? ['', ...det] : []), '',
+                    '¡Quedo al pendiente! 🙌'].join('\n');
+            },
+            cotizacion: (d, p, base, ex, once, monthly) => [`👋 ¡Hola ${d.short}!`, '',
+                'Vi la página de *KERNEL_* y quiero cotizar este plan:', '',
+                `📦 *Plan ${p.name}* — ${p.title}`,
+                `💰 Desde *${mxn(base)} MXN*`,
+                ...((p.inc || []).length || p.freeMonths ? [`🎁 *Incluye:* ${[...(p.inc || []), ...(p.freeMonths ? [`${p.freeMonths} meses de mantenimiento gratis`] : [])].join(' + ')}`] : []),
+                ...(ex.length ? ['', '➕ *Extras:*', ...ex.map(x => `• ${x.n} — ${mxn(x.price)}${x.per || ''}`),
+                    '', `🧾 *Total estimado: ${mxn(base + once)} MXN*`] : []),
+                ...(monthly ? [`🔁 + ${mxn(monthly)} MXN al mes${p.freeMonths ? ` (después de ${p.freeMonths} meses gratis)` : ''}`] : []), '',
+                '¿Me pueden confirmar tiempos y disponibilidad? 🙌'].join('\n')
+        };
+        const DIFF = [
+            ['shield-check','Diseño Exclusivo','Sin plantillas genéricas. Cada proyecto es una pieza única de arquitectura digital.','Partimos de tu marca: colores, tono y contenido reales. Nada se copia de otro cliente.'],
+            ['zap','Velocidad Extrema','Optimizamos hasta el último byte para una carga instantánea en cualquier dispositivo.','Imágenes ligeras, código limpio y sin librerías de más. Tu página abre rápido incluso con datos móviles.'],
+            ['headset','Soporte Directo','Comunicación fluida y directa. Estamos contigo en cada etapa del despliegue.','Hablas directo con quien diseña tu página, por WhatsApp o Instagram, sin intermediarios.']
+        ];
+        const $ = (s) => document.querySelector(s);
+        const ICONS = {
+            'x':'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+            'check':'<path d="M20 6 9 17l-5-5"/>',
+            'file-text':'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+            'globe':'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+            'star':'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+            'refresh-cw':'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+            'menu':'<path d="M4 6h16M4 12h16M4 18h16"/>',
+            'plus':'<path d="M5 12h14M12 5v14"/>',
+            'arrow-down':'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+            'mail':'<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+            'phone':'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+            'copy':'<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            'send':'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+            'play':'<polygon points="6 3 20 12 6 21 6 3"/>',
+            'message-circle':'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+            'shopping-cart':'<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+            'zap':'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+            'shield-check':'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            'headset':'<path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/>',
+            'instagram':'<rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/>'
+        };
+        const icons = () => document.querySelectorAll('[data-lucide]').forEach(el => {
+            const d = ICONS[el.dataset.lucide]; if (!d) return;
+            const v = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            Object.entries({ viewBox:'0 0 24 24', width:24, height:24, fill:'none', stroke:'currentColor', 'stroke-width':2, 'stroke-linecap':'round', 'stroke-linejoin':'round', 'aria-hidden':'true', 'data-icon': el.dataset.lucide, class: el.getAttribute('class') || '' })
+                .forEach(([k, val]) => v.setAttribute(k, val));
+            v.innerHTML = d; el.replaceWith(v);
+        });
+        let chosen = 'joshua';
+
+        /* Aviso flotante */
+        let tt;
+        function toast(msg) {
+            const t = $('#toast'); t.textContent = msg;
+            t.classList.remove('opacity-0','translate-y-4'); clearTimeout(tt);
+            tt = setTimeout(() => t.classList.add('opacity-0','translate-y-4'), 2200);
+        }
+        function copyTel(tel) {
+            (navigator.clipboard ? navigator.clipboard.writeText(tel) : Promise.reject())
+                .then(() => toast('Número copiado: ' + tel)).catch(() => toast('Número: ' + tel));
+        }
+
+        function copyMail() {
+            const m = 'kernel.sys.null@gmail.com';
+            (navigator.clipboard ? navigator.clipboard.writeText(m) : Promise.reject())
+                .then(() => toast('Correo copiado')).catch(() => toast('Correo: ' + m));
+        }
+
+        /* Tarjetas de contacto */
+        $('#team').innerHTML = Object.values(PEOPLE).map(p => `
+            <div class="bg-kernel-panel border border-white/5 p-8 rounded-3xl card-hover space-y-6">
+                <div class="flex items-center gap-4">
+                    <div aria-hidden="true" class="w-16 h-16 shrink-0 rounded-full bg-white text-black flex items-center justify-center text-xl font-bold ring-2 ring-white/20 ring-offset-4 ring-offset-[#1a1a1a]">${p.ini}</div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">${p.name}</h3>
+                        <p class="text-sm text-kernel-muted">@${p.ig} &middot; ${p.tel}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <a href="${WA.link(p, WA.cotizar(p))}" target="_blank" rel="noopener" class="btn-primary fx-bounce py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</a>
+                    <a href="https://instagram.com/${p.ig}" target="_blank" rel="noopener" class="btn-ghost fx-insta py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                    <a href="tel:+52${p.tel}" class="btn-ghost fx-shake py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="phone" class="w-4 h-4"></i> Llamar</a>
+                    <button onclick="copyTel('${p.tel}')" class="btn-ghost fx-up py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="copy" class="w-4 h-4"></i> Copiar número</button>
+                </div>
+            </div>`).join('');
+
+        $('#foot-contact').insertAdjacentHTML('beforeend', Object.values(PEOPLE).map(p =>
+            `<li><a href="https://instagram.com/${p.ig}" target="_blank" rel="noopener" class="hover:text-white transition-colors">${p.short} &middot; @${p.ig}</a></li>`).join(''));
+
+        /* Tarjetas expandibles */
+        $('#diff').innerHTML = DIFF.map(([ic, t, s, more]) => `
+            <div role="button" tabindex="0" aria-expanded="false" class="diff cursor-pointer text-left p-8 rounded-3xl bg-kernel-panel border border-white/5 space-y-4 card-hover">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10"><i data-lucide="${ic}"></i></div>
+                    <i data-lucide="plus" class="plus w-5 h-5 text-kernel-muted transition-transform"></i>
+                </div>
+                <h3 class="text-xl font-bold">${t}</h3>
+                <p class="text-kernel-muted text-sm leading-relaxed">${s}</p>
+                <p class="more hidden text-sm text-white leading-relaxed pt-3 border-t border-white/10">${more}</p>
+            </div>`).join('');
+        document.querySelectorAll('.diff').forEach(b => {
+            const tg = () => {
+                const open = b.querySelector('.more').classList.toggle('hidden') === false;
+                b.setAttribute('aria-expanded', open);
+                b.querySelector('.plus').style.transform = open ? 'rotate(45deg)' : '';
+            };
+            b.addEventListener('click', tg);
+            b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tg(); } });
+        });
+
+        /* Modal */
+        function renderWho() {
+            $('#who').innerHTML = Object.entries(PEOPLE).map(([k, p]) => `
+                <button type="button" data-who="${k}" aria-pressed="${k === chosen}" class="py-3 rounded-xl border text-sm font-bold transition-all ${k === chosen ? 'bg-white text-black border-white' : 'border-white/10 text-kernel-muted hover:border-white/40 hover:text-white'}">${p.short}</button>`).join('');
+            document.querySelectorAll('#who button').forEach(b => b.onclick = () => { chosen = b.dataset.who; renderWho(); });
+        }
+        const focusStack = [];
+        const FOCUSABLE = 'a[href],button:not([disabled]),input,textarea,select,[tabindex]:not([tabindex="-1"])';
+        function dialogOpen(m, first) { focusStack.push(document.activeElement); setTimeout(() => (first || m.querySelector(FOCUSABLE))?.focus(), 50); }
+        function dialogClose() { const f = focusStack.pop(); if (f && document.contains(f)) f.focus(); }
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'Tab') return;
+            const m = [$('#legal-modal'), $('#order-flow'), $('#order-modal'), $('#quote-modal')].find(x => x && x.classList.contains('flex')); if (!m) return;
+            const f = [...m.querySelectorAll(FOCUSABLE)].filter(x => x.offsetParent !== null); if (!f.length) return;
+            const a = f[0], z = f[f.length - 1];
+            if (!m.contains(document.activeElement) || (e.shiftKey && document.activeElement === a)) { e.preventDefault(); (e.shiftKey ? z : a).focus(); }
+            else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+        });
+        function openModal(service) {
+            $('#m-service').textContent = service || 'Cuéntanos qué necesitas y te respondemos por WhatsApp.';
+            $('#m-service').dataset.s = service || 'Proyecto nuevo';
+            renderWho();
+            const m = $('#order-modal'); m.classList.remove('hidden'); m.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            dialogOpen(m, $('#f-name'));
+        }
+        function closeModal() {
+            const m = $('#order-modal'), was = m.classList.contains('flex'); m.classList.add('hidden'); m.classList.remove('flex');
+            document.body.style.overflow = 'auto'; if (was) dialogClose();
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { if ($('#legal-modal').classList.contains('flex')) return closeLegal(); closeModal(); closeQuote(); closeFlow(); closeDial(); } });
+        $('#order-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const p = PEOPLE[chosen], city = $('#f-city').value.trim(), msg = $('#f-msg').value.trim();
+            const text = WA.proyecto(p, { nombre: $('#f-name').value.trim(), ciudad: city, servicio: $('#m-service').dataset.s, idea: msg });
+            window.open(`https://wa.me/52${p.tel}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+            e.target.reset(); closeModal(); toast('Abriendo WhatsApp con ' + p.short);
+        });
+
+        /* Menú móvil */
+        const mb = $('#menu-btn'), mm = $('#mobile-menu');
+        mb.addEventListener('click', () => {
+            const open = mm.classList.toggle('hidden') === false;
+            mm.classList.toggle('flex', open); mb.setAttribute('aria-expanded', open);
+        });
+        document.querySelectorAll('.mm').forEach(a => a.addEventListener('click', () => { mm.classList.add('hidden'); mm.classList.remove('flex'); }));
+
+        /* Barra al hacer scroll */
+        window.addEventListener('scroll', () => {
+            const n = $('nav'), s = window.scrollY > 50;
+            n.classList.toggle('py-2', s); n.classList.toggle('py-4', !s);
+        });
+
+        /* Luz que sigue al cursor */
+        const hero = $('#inicio');
+        hero.addEventListener('mousemove', e => {
+            const r = hero.getBoundingClientRect();
+            hero.style.setProperty('--x', (e.clientX - r.left) + 'px');
+            hero.style.setProperty('--y', (e.clientY - r.top) + 'px');
+        });
+
+        /* Ventana de código con efecto de escritura y contadores */
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const K = (c, t) => `<span class="text-${c}-400">${t}</span>`;
+        const LINES = [
+            `${K('purple','const')} ${K('blue','brand')} = ${K('emerald',"'KERNEL_'")};`,
+            `${K('purple','const')} ${K('blue','instagram')} = ${K('emerald',"'@kernel.null'")};`,
+            '&nbsp;',
+            `${K('purple','function')} ${K('yellow','initExperience')}() {`,
+            `&nbsp;&nbsp;${K('blue','return')} ${K('purple','new')} ${K('yellow','DigitalArchitecture')}({`,
+            `&nbsp;&nbsp;&nbsp;&nbsp;precision: ${K('orange','1.0')},`,
+            `&nbsp;&nbsp;&nbsp;&nbsp;aesthetic: ${K('emerald',"'Minimal'")}`,
+            `&nbsp;&nbsp;});`,
+            `}`
+        ];
+        const code = $('#code');
+        let i = 0;
+        function typeLine() {
+            code.innerHTML = LINES.slice(0, ++i).map(l => `<div>${l}</div>`).join('') + (i < LINES.length ? '<span class="caret"></span>' : '');
+            if (i < LINES.length && !reduce) setTimeout(typeLine, 330);
+            else if (i < LINES.length) { i = LINES.length - 1; typeLine(); }
+        }
+        typeLine();
+
+        const io = new IntersectionObserver(es => es.forEach(en => {
+            if (!en.isIntersecting) return; io.unobserve(en.target);
+            const end = +en.target.dataset.count, t0 = performance.now();
+            if (reduce) return;
+            (function step(t) {
+                const p = Math.min((t - t0) / 1200, 1);
+                en.target.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(step);
+            })(t0);
+        }));
+        document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+
+/* Planes y precios (MXN) */
+        const PLANS = [
+            { k:'store', name:'Kernel Plus', title:'Tienda Carrito WhatsApp', price:'1,299', limit:50, desc:'Todo en uno: catálogo, carrito y pedidos directo a tu WhatsApp.',
+              feats:['Una página con todas tus secciones y diseño a tu marca','Catálogo de hasta 50 productos o servicios','Carrito que arma el pedido y lo manda por WhatsApp','Formulario de pedido con datos del cliente','Botones a WhatsApp e Instagram','Animaciones y detalles interactivos','Adaptada a celular','Asesoría en dominio y hosting incluida','2 rondas de cambios'],
+              inc:['Asesoría de dominio y hosting'] }
+        ];
+        $('#plans').innerHTML = PLANS.map((p, i) => `
+            <div class="bg-kernel-panel border ${p.hot ? 'border-white/20' : 'border-white/5'} p-4 rounded-3xl card-hover flex flex-col group relative">
+                ${p.hot ? '<span class="absolute top-7 left-7 z-10 bg-white text-black text-[13px] font-bold px-3 py-1 rounded-full">Recomendado</span>' : ''}
+                <div class="aspect-[4/3] rounded-2xl bg-[#222] mb-6 overflow-hidden relative">
+                    <div role="img" aria-label="Vista previa: ${p.title}" data-mock="${p.k}" class="w-full h-full transition duration-700 group-hover:scale-110"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-kernel-panel to-transparent pointer-events-none"></div>
+                </div>
+                <div class="px-2 pb-2 flex-1 flex flex-col">
+                    <p class="text-[13px] font-bold tracking-widest uppercase text-kernel-muted mb-2">Plan ${p.name}</p>
+                    <h3 class="text-xl font-bold mb-3">${p.title}</h3>
+                    <div class="flex items-baseline gap-2 mb-4">
+                        <span class="text-[13px] text-kernel-muted">desde</span>
+                        <span class="text-4xl font-bold tracking-tight">$${p.price}</span>
+                        <span class="text-sm font-mono text-kernel-muted">MXN</span>
+                    </div>
+                    <p class="text-sm text-kernel-muted mb-5">${p.desc}</p>
+                    <ul class="space-y-3 text-sm mb-8 flex-1">${p.feats.map(f => `<li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 mt-0.5 shrink-0 text-emerald-400"></i><span class="text-kernel-muted">${f}</span></li>`).join('')}</ul>
+                    <button data-plan="${i}" class="${['btn-ghost fx-down','btn-primary fx-neon','btn-ghost fx-circle'][i]} w-full py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="shopping-cart" class="w-4 h-4"></i> Cotizar este plan</button>
+                </div>
+            </div>`).join('');
+        document.querySelectorAll('[data-plan]').forEach(b => b.addEventListener('click', () => {
+            const p = PLANS[b.dataset.plan];
+            openQuote(+b.dataset.plan);
+        }));
+
+        /* Una función distinta para cada botón */
+        function goContact() {
+            $('#contacto').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+            document.querySelectorAll('#team > div').forEach(d => { d.classList.add('ring-2', 'ring-white/40'); setTimeout(() => d.classList.remove('ring-2', 'ring-white/40'), 1800); });
+        }
+        function quickWA(who) {
+            const d = PEOPLE[who];
+            window.open(WA.link(d, WA.info(d)), '_blank', 'noopener');
+        }
+        let qi = 0; const qx = new Set();
+        const EXTRAS = [
+            { n:'Entrega exprés', price:300, ic:'zap', desc:'Tu página pasa al frente de la fila y se entrega con prioridad.' },
+            { n:'Mantenimiento mensual', price:200, per:'/mes', ic:'shield-check', desc:'Actualizamos precios, fotos y textos cuando lo necesites.' },
+            { n:'Cambios extra', price:150, per:'/ronda', ic:'refresh-cw', desc:'Una ronda más de ajustes cuando la necesites.' }
+        ];
+        const mxn = n => '$' + n.toLocaleString('es-MX');
+        function quoteCalc() {
+            const p = PLANS[qi], inc = p.inc || [], base = +p.price.replace(/,/g, ''), ex = EXTRAS.filter(x => qx.has(x.n) && !inc.includes(x.n));
+            const sum = f => ex.filter(f).reduce((a, x) => a + x.price, 0);
+            return { p, base, ex, inc, once: sum(x => x.per !== '/mes'), monthly: sum(x => x.per === '/mes') };
+        }
+        function renderQuote() {
+            const { p, base, once, monthly, inc } = quoteCalc();
+            $('#q-tabs').innerHTML = PLANS.map((x, i) => `<button type="button" data-q="${i}" aria-pressed="${i === qi}" class="py-2 rounded-xl border text-[13px] font-bold transition-all ${i === qi ? 'bg-white text-black border-white' : 'border-white/10 text-kernel-muted hover:border-white/40 hover:text-white'}">${x.name}</button>`).join('');
+            $('#q-tabs').classList.toggle('hidden', PLANS.length < 2); $('#q-name').textContent = p.title; $('#q-price').textContent = '$' + p.price;
+            $('#q-extras').innerHTML = EXTRAS.map(x => inc.includes(x.n)
+                ? `<div class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-sm"><span>✓ ${x.n}</span><span class="font-mono whitespace-nowrap text-emerald-400">Incluida</span></div>`
+                : `<button type="button" data-x="${x.n}" aria-pressed="${qx.has(x.n)}" class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border text-sm transition-all ${qx.has(x.n) ? 'border-white bg-white/10 text-white' : 'border-white/10 text-kernel-muted hover:border-white/30'}"><span>${qx.has(x.n) ? '✓ ' : ''}${x.n}</span><span class="font-mono whitespace-nowrap">${mxn(x.price)}${x.per || ''}${x.per === '/mes' && p.freeMonths ? ' · ' + p.freeMonths + ' meses gratis' : ''}</span></button>`).join('');
+            const bonus = [...inc, ...(p.freeMonths ? [p.freeMonths + ' meses de mantenimiento gratis'] : [])];
+            $('#q-inc').textContent = bonus.length ? '✓ Incluye: ' + bonus.join(' + ') : '';
+            $('#q-total').textContent = mxn(base + once);
+            $('#q-month').textContent = monthly ? '+ ' + mxn(monthly) + ' MXN al mes' + (p.freeMonths ? ' (después de ' + p.freeMonths + ' meses gratis)' : '') : '';
+            document.querySelectorAll('#q-tabs button').forEach(b => b.onclick = () => { qi = +b.dataset.q; renderQuote(); });
+            document.querySelectorAll('#q-extras button').forEach(b => b.onclick = () => { qx.has(b.dataset.x) ? qx.delete(b.dataset.x) : qx.add(b.dataset.x); renderQuote(); });
+        }
+        function openQuote(i, extra) { qi = i; if (extra) qx.add(extra); renderQuote(); const m = $('#quote-modal'); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; dialogOpen(m, $('#q-tabs button[aria-pressed="true"]')); }
+        function closeQuote() { const m = $('#quote-modal'), was = m.classList.contains('flex'); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = 'auto'; if (was) dialogClose(); }
+        function sendQuote(who) {
+            const { p, base, ex, once, monthly } = quoteCalc(), d = PEOPLE[who];
+            const text = WA.cotizacion(d, p, base, ex, once, monthly);
+            window.open(`https://wa.me/52${d.tel}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+            closeQuote(); toast('Abriendo WhatsApp con ' + d.short);
+        }
+        $('#extras').innerHTML = EXTRAS.map(x => `<button type="button" data-ex="${x.n}" aria-label="Agregar ${x.n} a la cotización" class="card-hover text-left p-5 rounded-3xl bg-kernel-panel border border-white/5 flex flex-col gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="${x.ic}" class="w-5 h-5"></i></div>
+            <div>${x.tag ? `<span class="inline-block mb-2 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[11px] font-bold">${x.tag}</span>` : ''}<h4 class="font-bold">${x.n}</h4><p class="text-[13px] text-kernel-muted leading-relaxed mt-1">${x.desc}</p></div>
+            <p class="mt-auto font-mono text-sm"><span class="text-lg font-bold font-sans">${mxn(x.price)}</span> MXN${x.per || ''}</p></button>`).join('');
+        document.querySelectorAll('[data-ex]').forEach(b => b.addEventListener('click', () => openQuote(qi, b.dataset.ex)));
+        const dm = $('#dial-menu'), db = $('#dial-btn');
+        const wa = (d, t) => `https://wa.me/52${d.tel}?text=${encodeURIComponent(t)}`;
+        dm.innerHTML = [
+            ['message-circle', 'WhatsApp · Joshua', WA.link(PEOPLE.joshua, WA.info(PEOPLE.joshua))],
+            ['message-circle', 'WhatsApp · Angel', WA.link(PEOPLE.angel, WA.info(PEOPLE.angel))],
+            ['instagram', 'Instagram de KERNEL_', 'https://instagram.com/kernel.null'],
+            ['mail', 'Correo', 'mailto:kernel.sys.null@gmail.com']
+        ].map(([ic, t, h]) => `<a href="${h}" ${h.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="glass-panel flex items-center gap-3 pl-4 pr-5 py-3 rounded-full text-sm font-medium hover:bg-white hover:text-black transition-all"><i data-lucide="${ic}" class="w-4 h-4"></i>${t}</a>`).join('');
+        function setDial(open) { dm.classList.toggle('hidden', !open); dm.classList.toggle('flex', open); db.setAttribute('aria-expanded', open); $('#dial-label').textContent = open ? 'Cerrar' : 'Contacto rápido'; }
+        function closeDial() { setDial(false); }
+        db.addEventListener('click', () => setDial(dm.classList.contains('hidden')));
+        document.addEventListener('click', e => { if (!$('#dial').contains(e.target)) closeDial(); });
+
+        /* Animaciones al presionar cada botón */
+        const ICON_ANIM = { 'send':'fly', 'message-circle':'wiggle', 'phone':'wiggle', 'headset':'wiggle', 'play':'pulse', 'star':'pulse', 'zap':'pulse', 'shield-check':'pulse',
+            'arrow-down':'bounce', 'mail':'bounce', 'shopping-cart':'cart', 'instagram':'tilt', 'menu':'tilt', 'x':'spin', 'globe':'spin', 'refresh-cw':'spin', 'copy':'check' };
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('button, [role="button"], a.btn-primary, a.btn-ghost, #dial-menu a');
+            if (!btn || reduce) return;
+            /* onda que sale desde donde tocas */
+            const r = btn.getBoundingClientRect(), size = Math.max(r.width, r.height) * 1.2;
+            const x = e.detail ? e.clientX - r.left : r.width / 2, y = e.detail ? e.clientY - r.top : r.height / 2;
+            if (getComputedStyle(btn).position === 'static') btn.style.position = 'relative';
+            btn.style.overflow = 'hidden';
+            const dot = document.createElement('span');
+            dot.className = 'ripple';
+            dot.style.cssText = `width:${size}px;height:${size}px;left:${x - size / 2}px;top:${y - size / 2}px`;
+            btn.appendChild(dot); setTimeout(() => dot.remove(), 700);
+            /* rebote del botón */
+            btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
+            setTimeout(() => btn.classList.remove('pop'), 420);
+            /* animación propia de cada ícono */
+            const ic = btn.querySelector('svg[data-icon]'), an = ic && ICON_ANIM[ic.dataset.icon];
+            if (!an) return;
+            if (an === 'check') {
+                ic.innerHTML = ICONS.check; ic.classList.add('text-emerald-400');
+                setTimeout(() => { ic.innerHTML = ICONS.copy; ic.classList.remove('text-emerald-400'); }, 1400);
+            } else {
+                ic.classList.remove('ia-' + an); void ic.getBoundingClientRect(); ic.classList.add('ia-' + an);
+                setTimeout(() => ic.classList.remove('ia-' + an), 700);
+            }
+        });
+
+        /* En celular no hay "hover": al tocar, cada botón reproduce su propia animación */
+        const FX_SEL = '.btn-primary, .btn-ghost, .btn-seg, #extras button, #dial-menu a, #who button, #q-tabs button, #q-extras button, button[aria-label="Cerrar"], footer a[aria-label^="Instagram"]';
+        document.addEventListener('pointerdown', e => {
+            if (e.pointerType === 'mouse' || reduce) return;
+            const b = e.target.closest(FX_SEL); if (!b) return;
+            b.classList.add('fx-on'); clearTimeout(b._fx);
+            b._fx = setTimeout(() => b.classList.remove('fx-on'), 1100);
+        });
+
+        /* Al bajar la página, cada botón reproduce su animación cuando entra en pantalla */
+        const fxPlay = (b, wait = 0, ms = 1300) => {
+            clearTimeout(b._fx);
+            setTimeout(() => { b.classList.add('fx-on'); b._fx = setTimeout(() => b.classList.remove('fx-on'), ms); }, wait);
+        };
+        if (!reduce && 'IntersectionObserver' in window) {
+            const fxIO = new IntersectionObserver(es => {
+                let n = 0;
+                es.forEach(en => { if (en.isIntersecting) fxPlay(en.target, 150 * n++); });
+            }, { threshold: .6, rootMargin: '0px 0px -6% 0px' });
+            document.querySelectorAll(FX_SEL).forEach(b => { if (!b.closest('#order-modal, #quote-modal, #dial')) fxIO.observe(b); });
+        }
+
+        /* Pedido por WhatsApp: formulario paso a paso */
+        const OBJ = ['Recibir pedidos por WhatsApp', 'Mostrar mi catálogo', 'Vender en línea', 'Conseguir más clientes'];
+        const STYLES = ['Dark minimalista', 'Claro y limpio', 'Colorido', 'Elegante', 'No sé, recomiéndenme'];
+        const STEPS = ['Tu plan', 'Tu negocio', 'Contenido y estilo', 'Tus datos y entrega', 'Revisa y envía'];
+        const fresh = () => ({ who: 'Joshua', negocio: '', giro: '', ciudad: '', redes: '', objetivo: [], tienePagina: '', logo: '', fotos: '', textos: '', estilo: '', colores: '', cantidad: '', ref: '', nombre: '', tel: '', telNorm: '', horario: '', fecha: '', notas: '', ok1: false, ok2: false });
+        let ord = fresh(), fs = 0;
+        const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const normTel = v => { let t = String(v).replace(/\D/g, ''); if (t.length === 12 && t.startsWith('52')) t = t.slice(2); return t.length === 10 ? t.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3') : ''; };
+        const inpCls = 'w-full bg-[#222] border border-white/5 rounded-xl py-3 px-4 focus:outline-none focus:border-white/30 transition-all';
+        const lbl = 'block text-[13px] text-kernel-muted font-bold mb-2';
+        const fld = (n, t, o = {}) => `<div><label for="of-${n}" class="${lbl}">${t}${o.req ? ' *' : ''}</label>${o.area
+            ? `<textarea id="of-${n}" name="${n}" rows="3" maxlength="300" placeholder="${o.ph || ''}" class="${inpCls} resize-none">${esc(ord[n])}</textarea>`
+            : `<input id="of-${n}" name="${n}" type="text" maxlength="${o.max || 80}" ${o.ac ? `autocomplete="${o.ac}"` : ''} ${o.im ? `inputmode="${o.im}"` : ''} value="${esc(ord[n])}" placeholder="${o.ph || ''}" class="${inpCls}">`}<p data-err="${n}" class="hidden text-[13px] text-red-400 mt-1"></p></div>`;
+        const pick = (n, t, list, multi) => `<fieldset><legend class="${lbl}">${t}</legend><div class="flex flex-wrap gap-2">${list.map(v => `<label class="cursor-pointer"><input type="${multi ? 'checkbox' : 'radio'}" name="${n}" value="${esc(v)}" ${(multi ? ord[n].includes(v) : ord[n] === v) ? 'checked' : ''} class="peer sr-only"><span class="block px-4 py-2 rounded-full border border-white/10 text-sm text-kernel-muted transition-all hover:border-white/40 peer-checked:bg-white peer-checked:text-black peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white">${v}</span></label>`).join('')}</div><p data-err="${n}" class="hidden text-[13px] text-red-400 mt-2"></p></fieldset>`;
+        const STEP_HTML = [
+            () => { const inc = PLANS[qi].inc || [];
+                return `<fieldset><legend class="${lbl}">Tu plan</legend><div class="space-y-2">${PLANS.map((x, i) => `<label class="block cursor-pointer"><input type="radio" name="plan" value="${i}" ${i === qi ? 'checked' : ''} class="peer sr-only"><span class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-white/10 text-sm transition-all hover:border-white/30 peer-checked:border-white peer-checked:bg-white/10 peer-focus-visible:ring-2 peer-focus-visible:ring-white"><span><b>${x.name}</b> <span class="text-kernel-muted">· ${x.title}</span></span><span class="font-mono whitespace-nowrap">desde $${x.price}</span></span></label>`).join('')}</div></fieldset>
+                <fieldset><legend class="${lbl}">Extras (opcional)</legend><div class="space-y-2">${EXTRAS.map(x => inc.includes(x.n)
+                    ? `<div class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-sm"><span>✓ ${x.n}</span><span class="font-mono text-emerald-400">Incluida</span></div>`
+                    : `<label class="block cursor-pointer"><input type="checkbox" name="extra" value="${esc(x.n)}" ${qx.has(x.n) ? 'checked' : ''} class="peer sr-only"><span class="flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-white/10 text-sm text-kernel-muted transition-all hover:border-white/30 peer-checked:border-white peer-checked:bg-white/10 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-white"><span>${x.n}</span><span class="font-mono whitespace-nowrap">${mxn(x.price)}${x.per || ''}</span></span></label>`).join('')}</div></fieldset>
+                <div id="of-sum" class="rounded-2xl bg-[#222] border border-white/5 p-4 text-sm"></div>`; },
+            () => fld('negocio', 'Nombre de tu negocio', { req: 1, ac: 'organization' }) + fld('giro', '¿A qué se dedica?', { req: 1, ph: 'Ej. venta de ropa personalizada' }) + fld('ciudad', 'Ciudad', { req: 1, ac: 'address-level2' })
+                + fld('redes', 'Instagram u otras redes (opcional)', { ph: '@tunegocio' }) + pick('objetivo', '¿Qué quieres lograr con tu página?', OBJ, true) + pick('tienePagina', '¿Ya tienes página web?', ['Sí', 'No']),
+            () => pick('logo', '¿Tienes logo? *', ['Sí, ya tengo', 'No tengo']) + pick('fotos', '¿Tienes fotos de tus productos o servicios? *', ['Sí, de todo', 'De algunos', 'No tengo']) + pick('textos', '¿Ya tienes los textos? *', ['Sí, ya los tengo', 'Necesito ayuda'])
+                + pick('estilo', 'Estilo que te gusta *', STYLES) + fld('colores', 'Colores de tu marca (opcional)', { ph: 'Ej. negro y dorado' })
+                + fld('cantidad', '¿Cuántos productos o servicios mostrarás? (aprox.)', { req: 1, im: 'numeric', max: 3, ph: 'Ej. 15' }) + '<p data-err="lim" class="hidden text-[13px] text-amber-400 -mt-3"></p>'
+                + fld('ref', 'Una página que te guste (opcional)', { max: 120, ph: 'Pega un link o escribe un nombre' }),
+            () => fld('nombre', 'Tu nombre', { req: 1, ac: 'name' }) + fld('tel', 'Tu WhatsApp (10 dígitos)', { req: 1, ac: 'tel-national', im: 'tel', max: 16, ph: '272 123 4567' })
+                + pick('horario', 'Mejor horario para contactarte', ['Mañana', 'Tarde', 'Noche', 'Cualquiera']) + pick('fecha', '¿Para cuándo la necesitas?', ['Sin prisa', 'En 1 o 2 semanas', 'Lo antes posible'])
+                + `<p id="of-rush" class="${ord.fecha === 'Lo antes posible' ? '' : 'hidden '}text-[13px] text-kernel-muted -mt-3">Con la entrega exprés (+${mxn(EXTRAS.find(x => x.n === 'Entrega exprés').price)}) tu página pasa al frente de la fila. Puedes agregarla en el paso 1.</p>`
+                + pick('who', '¿Con quién quieres hablar?', ['Joshua', 'Angel']) + fld('notas', 'Algo más que debamos saber (opcional)', { area: 1, ph: 'Ej. quiero que se vea muy elegante' })
+                + `<div class="space-y-3"><label class="flex gap-3 items-start cursor-pointer text-[13px] text-kernel-muted"><input type="checkbox" name="ok1" ${ord.ok1 ? 'checked' : ''} class="mt-1 accent-white"><span>Entiendo que para empezar se requiere el <b class="text-white">50% de anticipo</b>.</span></label>
+                <label class="flex gap-3 items-start cursor-pointer text-[13px] text-kernel-muted"><input type="checkbox" name="ok2" ${ord.ok2 ? 'checked' : ''} class="mt-1 accent-white"><span>Acepto el <button type="button" onclick="openLegal('privacidad')" class="underline text-white">aviso de privacidad</button> y las <button type="button" onclick="openLegal('condiciones')" class="underline text-white">condiciones del servicio</button>.</span></label>
+                <p data-err="ok" class="hidden text-[13px] text-red-400"></p></div>`,
+            () => `<p class="text-[13px] text-kernel-muted">Así se enviará tu pedido por WhatsApp. Revísalo y, si algo está mal, regresa con "Atrás".</p><pre class="whitespace-pre-wrap break-words text-[13px] bg-[#222] rounded-2xl p-4 border border-white/5 font-sans text-white/90">${esc(WA.pedido(PEOPLE[ord.who.toLowerCase()], ord))}</pre>
+                <button type="button" id="of-copy" class="btn-ghost w-full py-3 rounded-xl text-sm flex items-center justify-center gap-2"><i data-lucide="copy" class="w-4 h-4"></i> Copiar resumen</button>`
+        ];
+        WA.pedido = (d, o) => {
+            const { p, base, ex, once, monthly } = quoteCalc();
+            const L = (k, v) => v ? `• ${k}: ${v}` : null;
+            const sec = (t, rows) => { const r = rows.filter(Boolean); return r.length ? ['', t, ...r] : []; };
+            const inc = [...(p.inc || []), ...(p.freeMonths ? [`${p.freeMonths} meses de mantenimiento gratis`] : [])];
+            return [`👋 ¡Hola ${d.short}!`, '', 'Vi la página de *KERNEL_* y quiero hacer un pedido. 🛒',
+                ...sec('📦 *Mi plan*', [`• *Plan ${p.name}* — ${p.title} (desde ${mxn(base)} MXN)`, inc.length ? `• Incluye: ${inc.join(' + ')}` : null, ...ex.map(x => `• Extra: ${x.n} — ${mxn(x.price)}${x.per || ''}`)]),
+                ...sec('💰 *Total estimado*', [`• *${mxn(base + once)} MXN*`, monthly ? `• + ${mxn(monthly)} MXN al mes${p.freeMonths ? ` (después de ${p.freeMonths} meses gratis)` : ''}` : null]),
+                ...sec('🏪 *Mi negocio*', [L('Nombre', o.negocio), L('A qué se dedica', o.giro), L('Ciudad', o.ciudad), L('Redes', o.redes), L('Quiero', o.objetivo.join(', ')), L('Ya tengo página', o.tienePagina)]),
+                ...sec('🎨 *Contenido y estilo*', [L('Logo', o.logo), L('Fotos', o.fotos), L('Textos', o.textos), L('Estilo', o.estilo), L('Colores', o.colores), L('Productos o servicios', o.cantidad), L('Referencia', o.ref)]),
+                ...sec('📅 *Entrega y contacto*', [L('Para cuándo', o.fecha), L('Mejor horario', o.horario), L('Mi nombre', o.nombre), L('Mi WhatsApp', o.telNorm)]),
+                ...(o.notas ? ['', `📝 *Notas:* ${o.notas}`] : []),
+                '', '✅ Entiendo que se requiere 50% de anticipo para empezar y acepto el aviso de privacidad.', '', '¡Quedo al pendiente! 🙌'].join('\n');
+        };
+        function collect() {
+            const f = $('#of-form'), d = new FormData(f), has = n => f.querySelector(`[name="${n}"]`);
+            ['negocio', 'giro', 'ciudad', 'redes', 'colores', 'cantidad', 'ref', 'nombre', 'tel', 'notas'].forEach(n => { if (has(n)) ord[n] = String(d.get(n) || '').trim(); });
+            ['tienePagina', 'logo', 'fotos', 'textos', 'estilo', 'horario', 'fecha', 'who'].forEach(n => { if (has(n)) ord[n] = d.get(n) || (n === 'who' ? ord.who : ''); });
+            if (has('objetivo') || fs === 1) ord.objetivo = d.getAll('objetivo');
+            if (has('plan')) { qi = +d.get('plan'); qx.clear(); d.getAll('extra').forEach(v => qx.add(v)); }
+            if (has('ok1')) { ord.ok1 = d.has('ok1'); ord.ok2 = d.has('ok2'); }
+            if (has('tel')) ord.telNorm = normTel(ord.tel);
+        }
+        const REQ = { 1: [['negocio', 'Escribe el nombre de tu negocio'], ['giro', 'Cuéntanos a qué se dedica'], ['ciudad', 'Escribe tu ciudad']],
+            2: [['logo', 'Elige una opción'], ['fotos', 'Elige una opción'], ['textos', 'Elige una opción'], ['estilo', 'Elige un estilo'], ['cantidad', 'Escribe un número aproximado']],
+            3: [['nombre', 'Escribe tu nombre'], ['tel', 'Escribe tu WhatsApp']] };
+        function validate() {
+            document.querySelectorAll('#of-form [data-err]').forEach(e => e.classList.add('hidden'));
+            const bad = [], show = (n, m) => { const e = document.querySelector(`#of-form [data-err="${n}"]`); if (e) { e.textContent = m; e.classList.remove('hidden'); } bad.push(n); };
+            (REQ[fs] || []).forEach(([n, m]) => { if (!ord[n]) show(n, m); });
+            if (fs === 2 && ord.cantidad) {
+                if (!/^\d{1,3}$/.test(ord.cantidad)) show('cantidad', 'Escribe solo números');
+                else { const lim = PLANS[qi].limit, e = document.querySelector('#of-form [data-err="lim"]');
+                    const key = ord.cantidad + '|' + qi;
+                    if (lim && +ord.cantidad > lim && ord.limSeen !== key) { ord.limSeen = key; if (e) { e.textContent = `Tu plan incluye hasta ${lim}. Con más, lo cotizamos aparte o puedes elegir un plan mayor. Si así está bien, toca Continuar otra vez.`; e.classList.remove('hidden'); } bad.push('cantidad'); } }
+            }
+            if (fs === 3) {
+                if (ord.tel && !ord.telNorm) show('tel', 'Revisa tu número: deben ser 10 dígitos');
+                if (!ord.ok1 || !ord.ok2) show('ok', 'Marca las dos casillas para continuar');
+            }
+            if (bad.length) (document.querySelector(`#of-form [name="${bad[0]}"]`) || document.querySelector('#of-form [name="ok1"]'))?.focus();
+            return !bad.length;
+        }
+        function updSum() {
+            const { p, base, once, monthly, inc } = quoteCalc(), el = $('#of-sum'); if (!el) return;
+            const bonus = [...inc, ...(p.freeMonths ? [p.freeMonths + ' meses de mantenimiento gratis'] : [])];
+            el.innerHTML = `<div class="flex items-end justify-between gap-3"><span class="text-kernel-muted">Total estimado</span><span><b class="text-2xl">${mxn(base + once)}</b> <span class="font-mono text-kernel-muted">MXN</span></span></div>${monthly ? `<p class="text-[13px] text-kernel-muted text-right">+ ${mxn(monthly)} MXN al mes${p.freeMonths ? ` (después de ${p.freeMonths} meses gratis)` : ''}</p>` : ''}${bonus.length ? `<p class="text-[13px] text-emerald-400 mt-2">✓ Incluye: ${bonus.join(' + ')}</p>` : ''}`;
+        }
+        function renderFlow() {
+            const f = $('#of-form'); f.innerHTML = STEP_HTML[fs]();
+            $('#of-step').textContent = `Paso ${fs + 1} de ${STEPS.length} · ${STEPS[fs]}`;
+            $('#of-bar').style.width = ((fs + 1) / STEPS.length * 100) + '%';
+            $('#of-back').classList.toggle('invisible', fs === 0);
+            $('#of-next').innerHTML = fs === STEPS.length - 1 ? '<i data-lucide="send" class="w-4 h-4"></i> Enviar por WhatsApp' : 'Continuar';
+            if (fs === 0) updSum();
+            if (fs === STEPS.length - 1) $('#of-copy').addEventListener('click', () => { const t = WA.pedido(PEOPLE[ord.who.toLowerCase()], ord); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast('Resumen copiado')).catch(() => toast('No se pudo copiar')); });
+            icons(); f.scrollTop = 0;
+        }
+        $('#of-form').addEventListener('change', e => {
+            const n = e.target.name;
+            if (n === 'plan') { collect(); renderFlow(); document.querySelector('#of-form [name="plan"]:checked')?.focus(); }
+            else if (n === 'extra') { collect(); updSum(); }
+            else if (n === 'fecha') $('#of-rush')?.classList.toggle('hidden', e.target.value !== 'Lo antes posible');
+        });
+        $('#of-form').addEventListener('submit', e => { e.preventDefault(); $('#of-next').click(); });
+        $('#of-back').addEventListener('click', () => { collect(); if (fs > 0) { fs--; renderFlow(); } });
+        $('#of-next').addEventListener('click', () => {
+            collect(); if (!validate()) return;
+            if (fs < STEPS.length - 1) { fs++; renderFlow(); } else sendOrder();
+        });
+        function openFlow() { fs = 0; renderFlow(); const m = $('#order-flow'); m.classList.remove('hidden'); m.classList.add('flex'); document.body.style.overflow = 'hidden'; dialogOpen(m, document.querySelector('#of-form [name="plan"]:checked')); }
+        function closeFlow() { const m = $('#order-flow'), was = m.classList.contains('flex'); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = 'auto'; if (was) dialogClose(); }
+        function sendOrder() {
+            const d = PEOPLE[ord.who.toLowerCase()];
+            window.open(WA.link(d, WA.pedido(d, ord)), '_blank', 'noopener');
+            ord = fresh(); qi = 0; qx.clear(); closeFlow(); toast('Abriendo WhatsApp con ' + d.short);
+        }
+        const LEGAL = {
+            privacidad: ['Aviso de privacidad', `<p><b class="text-white">Responsables:</b> KERNEL_ (Joshua Emiliano Acevedo Ruiz y Angel Falcon Ramos).</p>
+                <p><b class="text-white">Qué datos pedimos:</b> tu nombre, tu WhatsApp, tu ciudad, los datos de tu negocio y tus preferencias para la página.</p>
+                <p><b class="text-white">Para qué los usamos:</b> preparar tu cotización, contactarte por WhatsApp y desarrollar tu página.</p>
+                <p><b class="text-white">Cómo los tratamos:</b> esta página no guarda ni envía tus datos a ningún servidor. Solo arma un mensaje que tú decides enviar por WhatsApp. No vendemos tus datos.</p>
+                <p><b class="text-white">Tus derechos:</b> puedes pedirnos acceder a tus datos, corregirlos o que los eliminemos, escribiendo a kernel.sys.null@gmail.com.</p>`],
+            condiciones: ['Condiciones del servicio', `<ol class="list-decimal pl-5 space-y-2">
+                <li><b class="text-white">Precios.</b> Están en pesos mexicanos. "Desde" es el precio base; el precio final se confirma en la cotización.</li>
+                <li><b class="text-white">Pago.</b> 50% de anticipo para empezar y 50% restante al entregar. Los datos de pago se envían al cotizar.</li>
+                <li><b class="text-white">Tiempos.</b> La fecha estimada se acuerda al cotizar y depende de que nos envíes tu información (textos, fotos y logo) a tiempo.</li>
+                <li><b class="text-white">Cambios.</b> Tu plan incluye 2 rondas de revisión. Los cambios adicionales se cobran como extra.</li>
+                <li><b class="text-white">Dominio y hosting.</b> Los contratas tú directo con tu proveedor y el dominio se renueva cada año. Te asesoramos y esa asesoría va incluida en tu plan.</li>
+                <li><b class="text-white">Mantenimiento.</b> Es opcional y se cobra por mes.</li>
+                <li><b class="text-white">Contenido.</b> Eres responsable de que los textos, fotos y logos que nos entregues sean tuyos o tengas permiso de usarlos.</li></ol>`]
+        };
+        function openLegal(k) { $('#lg-title').textContent = LEGAL[k][0]; $('#lg-body').innerHTML = LEGAL[k][1]; $('#lg-body').scrollTop = 0; const m = $('#legal-modal'); m.classList.remove('hidden'); m.classList.add('flex'); dialogOpen(m, m.querySelector('button')); }
+        function closeLegal() { const m = $('#legal-modal'), was = m.classList.contains('flex'); m.classList.add('hidden'); m.classList.remove('flex'); document.body.style.overflow = $('#order-flow').classList.contains('flex') ? 'hidden' : 'auto'; if (was) dialogClose(); }
+
+        /* Ilustraciones de los servicios (integradas, siempre cargan) */
+        const bar = (x, y, w, h = 8, o = .14, f = '#fff') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${f}" fill-opacity="${o}"/>`;
+        const frame = (k, body) => `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" class="w-full h-full" aria-hidden="true">
+            <defs><linearGradient id="g${k}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#fff" stop-opacity=".02"/></linearGradient></defs>
+            <rect width="400" height="300" fill="#141414"/>
+            <rect x="36" y="34" width="328" height="232" rx="14" fill="#1d1d1d" stroke="#fff" stroke-opacity=".12"/>
+            <circle cx="54" cy="50" r="3.5" fill="#fff" fill-opacity=".25"/><circle cx="66" cy="50" r="3.5" fill="#fff" fill-opacity=".25"/><circle cx="78" cy="50" r="3.5" fill="#fff" fill-opacity=".25"/>
+            ${bar(130, 44, 140, 12, .08)}${body}</svg>`;
+        const box = (x, y, w, h, r = 10) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="#fff" fill-opacity=".05" stroke="#fff" stroke-opacity=".1"/>`;
+        const MOCKS = {
+            landing: k => bar(58, 86, 150, 14, .9) + bar(58, 108, 110, 14, .9) + bar(58, 134, 170, 7, .25) + bar(58, 148, 140, 7, .25)
+                + '<rect x="58" y="168" width="86" height="26" rx="13" fill="#fff"/>' + bar(74, 177, 54, 8, .7, '#000')
+                + '<rect x="152" y="168" width="70" height="26" rx="13" fill="none" stroke="#fff" stroke-opacity=".3"/>'
+                + `<circle cx="298" cy="128" r="48" fill="url(#g${k})"/><circle cx="298" cy="128" r="30" fill="none" stroke="#fff" stroke-opacity=".2"/><circle cx="320" cy="108" r="5" fill="#10b981"/>`
+                + [58, 156, 254].map(x => box(x, 216, 88, 36) + bar(x + 10, 228, 34, 9, .8) + bar(x + 10, 242, 50, 5, .25)).join(''),
+            store: k => '<circle cx="340" cy="50" r="9" fill="#10b981"/>' + bar(336, 48, 8, 4, .9, '#000')
+                + [58, 156, 254].map(x => box(x, 74, 88, 104) + `<rect x="${x + 8}" y="82" width="72" height="54" rx="6" fill="url(#g${k})"/>`
+                    + bar(x + 8, 146, 56, 8, .8) + bar(x + 8, 160, 34, 6, .3) + `<circle cx="${x + 72}" cy="160" r="7" fill="#fff" fill-opacity=".9"/>`).join('')
+                + '<rect x="58" y="196" width="284" height="46" rx="23" fill="#10b981"/><circle cx="84" cy="219" r="13" fill="#fff"/>'
+                + bar(108, 212, 110, 8, .9, '#000') + bar(108, 226, 70, 6, .4, '#000')
+                + '<circle cx="320" cy="219" r="13" fill="#000" fill-opacity=".85"/><path d="M314 219h12m-4-4 4 4-4 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+            catalog: k => [[58, 44], [108, 52], [166, 40], [212, 48]].map(([x, w], i) => `<rect x="${x}" y="70" width="${w}" height="18" rx="9" fill="${i ? 'none' : '#fff'}" stroke="#fff" stroke-opacity=".25"/>`).join('')
+                + `<rect x="58" y="102" width="150" height="142" rx="12" fill="url(#g${k})" stroke="#fff" stroke-opacity=".12"/>`
+                + '<circle cx="133" cy="156" r="28" fill="none" stroke="#fff" stroke-opacity=".4"/><circle cx="133" cy="156" r="12" fill="#fff" fill-opacity=".2"/>'
+                + bar(70, 212, 84, 9, .9) + bar(70, 227, 52, 6, .4)
+                + [102, 152, 202].map(y => box(222, y, 120, 42, 8) + `<rect x="230" y="${y + 8}" width="26" height="26" rx="6" fill="#fff" fill-opacity=".12"/>` + bar(264, y + 11, 68, 8, .8) + bar(264, y + 25, 40, 6, .3)).join('')
+        };
+        document.querySelectorAll('[data-mock]').forEach(el => { const k = el.dataset.mock; el.innerHTML = frame(k, MOCKS[k](k)); });
+
+        icons();
+    </script>
+</body>
+</html>
